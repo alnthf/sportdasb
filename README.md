@@ -4,6 +4,7 @@
 <p align="center"><b>Faizal Mahananto, S.Kom., M.Eng., Ph.D.</b></p>
 
 ## SportDasb
+<p align="center"><img src="https://i.imgur.com/tRsQjry.png" alt="SportDasb Logo"></a></p>
 
 ### Author
 
