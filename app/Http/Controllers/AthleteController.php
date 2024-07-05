@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 class AthleteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all athletes.
      */
     public function index()
     {
-        //
+        //tampilin sesuai data semua atlete
+        $athlete = Athlete::all();
+
+        //balik ke view
+        return view('allathletes', compact('athlete'));
+    }
+
+    /**
+     * Display a listing of match statistics for athletes.
+     */
+    public function match()
+    {
+        //tampilin sesuai data aktif sama reserve
+
+
+        //balik ke view
+        return view('match');
     }
 
     /**
@@ -20,7 +36,11 @@ class AthleteController extends Controller
      */
     public function create()
     {
-        //
+        // Fetch device IDs from the database
+        $device = Device::pluck('device_id');
+
+        // Pass the device IDs to the view
+        return view('addathlete', compact('device'));
     }
 
     /**
@@ -28,23 +48,37 @@ class AthleteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //simpen di database
+
+
+         //balik ke view
+          return view('allathletes');
     }
 
     /**
-     * Display the specified resource.
+     * Display an athlete detail
      */
     public function show(Athlete $athlete)
     {
         //
+
+        //balik ke view
+        return view('athletedetails');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Athlete $athlete)
+    public function setting(Athlete $athlete)
     {
-        //
+        // Fetch device IDs from the database
+        $device = Device::pluck('device_id');
+
+        // Pass the device IDs to the view
+        return view('addathlete', compact('device'));
+
+        //balik ke view
+        return view('athletesetting');
     }
 
     /**
@@ -53,6 +87,9 @@ class AthleteController extends Controller
     public function update(Request $request, Athlete $athlete)
     {
         //
+
+        //balik ke view detail atlet
+        return redirect()->route('athletesetting');
     }
 
     /**
@@ -60,6 +97,10 @@ class AthleteController extends Controller
      */
     public function destroy(Athlete $athlete)
     {
-        //
+        //delete profile
+        $athlete->delete();
+
+        //balik ke view utama
+        return redirect()->route('all-athlete');
     }
 }

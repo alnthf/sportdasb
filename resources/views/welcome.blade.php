@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- Notes -->
@@ -40,7 +42,7 @@
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .choose{
+        .choose {
             padding: 26px 10px;
         }
 
@@ -51,8 +53,8 @@
             border-radius: 20px;
             text-align: center;
             font-size: 20px;
-            width:140px;
-            height:40px;
+            width: 140px;
+            height: 40px;
             margin: 2px;
             opacity: 1;
             transition: 0.3s;
@@ -60,8 +62,8 @@
         }
 
         .btn:hover {
-            background-color:#FF903F;
-            color: rgb(0, 0, 0);
+            background-color: #283ada;
+            color: rgb(255, 255, 255);
         }
     </style>
 </head>
@@ -74,10 +76,14 @@
 
         <!-- Tombol -->
 
-        <div class="choose"><a href="{{ route('sign-in') }}" class="btn" font-size= "36px">Sign in</a><br>
-            <p font-size= "16px">or</p>
+        <div class="choose">
 
-        <a href="{{ route('sign-up') }}" class="btn" font-size= "36px">Sign up</a></div>
+            <!-- Pake name yang di route -->
+            <a href="{{ route('sign-in') }}" class="btn" font-size= "36px">Sign in</a><br>
+            <p font-size= "16px">or</p>
+            <a href="{{ route('sign-up') }}" class="btn" font-size= "36px">Sign up</a>
+
+        </div>
 
     </div>
 

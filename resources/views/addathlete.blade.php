@@ -13,16 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-            } else {
-                x.className = "topnav";
-            }
-        }
-    </script>
     <!-- Notes -->
     <style>
         body {
@@ -77,8 +67,7 @@
             padding-left: 10px;
         }
 
-        input,
-        select {
+        input, select {
             font-size: 20px;
             width: 95%;
             padding: 5px 5px;
@@ -115,40 +104,9 @@
             font-size: 16px;
         }
 
-        .modal-content {
-            padding: 10px 20px;
-        }
-
-        .modal-body {
-            text-align: center;
-        }
-
-
-        .deletebtn {
-            background-color: #EA3323;
-            border: none;
-            color: white;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 17px;
-            display: inline-block;
-            width: 140px;
-            height: 35px;
-            padding-top: 5px;
-            margin-left: 0;
-            opacity: 1;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .deletebtn:hover {
-            background-color: #a42216;
-            color: rgb(255, 255, 255);
-        }
-
 
         .cancelbtn {
-            background-color: #2F41E9;
+            background-color: #EA3323;
             border: none;
             color: white;
             border-radius: 20px;
@@ -165,28 +123,6 @@
         }
 
         .cancelbtn:hover {
-            background-color: #1e2892;
-            color: rgb(255, 255, 255);
-        }
-
-        .deleteconbtn {
-            background-color: #EA3323;
-            border: none;
-            color: white;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 17px;
-            display: inline-block;
-            width: 140px;
-            height: 35px;
-            padding-top: 5px;
-            margin-left: 0;
-            opacity: 1;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .deleteconbtn:hover {
             background-color: #a42216;
             color: rgb(255, 255, 255);
         }
@@ -311,7 +247,7 @@
 
             <h1>Team account</h1>
 
-            <form action="{{ route('athletesetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
+            <form action="{{ route('teamsetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
 
@@ -323,14 +259,15 @@
                     <div class="grid-container">
                         <div>
                             <label for="age">Age:</label><br>
-                            <input type="number" placeholder="Enter age" id="age" name="age" required><br>
+                            <input type="number" placeholder="Enter age" id="age" name="age"
+                                required><br>
                         </div>
                         <div>
                             <label for="gender">Gender:</label><br>
                             <select id="gender" name="gender" required>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                            </select><br>
+                              </select><br>
                         </div>
                         <div>
                             <label for="height">Height:</label><br>
@@ -370,54 +307,17 @@
                     <select id="isActive" name="isActive" required>
                         <option value="yes">Active player</option>
                         <option value="no">Reserve player</option>
-                    </select><br><br>
+                      </select><br>
 
                 </div>
 
                 <!-- Tombol -->
 
                 <div class="option">
-                    <button type="button" class="deletebtn" data-toggle="modal" data-target="#deleteModal">
-                        Delete profile
-                    </button>
+                    <a href="#allathletes" class="cancelbtn">Cancel</a>
 
                     <button type="submit" class="submitbtn">Add profile</button>
                 </div>
-
-                <!-- The Modal -->
-                <div class="modal" id="deleteModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <br><br><br>
-                                <form class="modal-isi" action="{{ route('athletesetting.deleted', $athlete) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
-                                <h3>
-                                    Are you sure you want to delete this athlete's profile?
-                                </h3>
-                                <br><br>
-
-                                <div class="option">
-                                    <button type="button" class="cancelbtn" data-dismiss="modal">No, go
-                                        back</button>
-
-                                    <button type="submit" class="deleteconbtn">Yes, delete profile</button>
-                                </div>
-                                </form>
-
-                            </div>
-
-
-
-                        </div>
-                    </div>
-                </div>
-
 
             </form>
         </div>
