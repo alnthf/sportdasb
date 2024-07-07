@@ -274,7 +274,7 @@
                     <br>
                     <img src="https://cdn.icon-icons.com/icons2/510/PNG/512/stats-bars_icon-icons.com_49979.png"
                         class="menulogo" alt="Match menu">
-                    <a href="#match" class="btn stretched-link"></a>
+                    <a href="{{ route('match') }}" class="btn stretched-link"></a>
                 </div>
 
                 <div class="card">
@@ -285,7 +285,7 @@
                     <br>
                     <img src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-group-icon-png-image_1796653.jpg"
                         class="menulogo" alt="All athletes list">
-                    <a href="#allathletes" class="btn stretched-link"></a>
+                    <a href="{{ route('all-athlete') }}" class="btn stretched-link"></a>
                 </div>
 
                 <div class="card">
