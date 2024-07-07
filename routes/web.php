@@ -35,6 +35,7 @@ Route::post('home/team-setting', 'App\Http\Controllers\TeamController@update')->
 // Isi dashboard kelola atlet
 
 Route::get('home/match', 'App\Http\Controllers\AthleteController@match')->name('match');
+Route::post('home/match', 'App\Http\Controllers\AthleteController@swap')->name('swap');
 
 Route::get('home/all-athlete', 'App\Http\Controllers\AthleteController@index')->name('all-athlete');
 

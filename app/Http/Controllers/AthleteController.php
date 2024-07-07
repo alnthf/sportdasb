@@ -13,10 +13,11 @@ class AthleteController extends Controller
     public function index()
     {
         //tampilin sesuai data semua atlete
-        $athlete = Athlete::all();
+        //$athlete = Athlete::all();
 
         //balik ke view
-        return view('allathletes', compact('athlete'));
+        return view('allathletes');
+        //tambahin ini habis allathletes = , compact('athlete')
     }
 
     /**
@@ -30,6 +31,19 @@ class AthleteController extends Controller
         //balik ke view
         return view('match');
     }
+
+     /**
+     * Show the form for editing the specified resource.
+     */
+    public function swap(Athlete $athlete)
+    {
+        // buat tuker
+
+        // Pass the IDs to the view
+        return redirect()->route('match');
+
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -75,10 +89,8 @@ class AthleteController extends Controller
         $device = Device::pluck('device_id');
 
         // Pass the device IDs to the view
-        return view('addathlete', compact('device'));
+        return view('athletesetting', compact('device'));
 
-        //balik ke view
-        return view('athletesetting');
     }
 
     /**
@@ -89,7 +101,7 @@ class AthleteController extends Controller
         //
 
         //balik ke view detail atlet
-        return redirect()->route('athletesetting');
+        return redirect()->route('athletedetail');
     }
 
     /**
