@@ -224,7 +224,7 @@
 
             <div class="conamatim">
                 <!-- <p> $ team_name </p> -->
-                <p>Team Name</p>
+                <p>Tim Garuda</p>
             </div>
 
             <div class="cologotim">
@@ -240,7 +240,7 @@
             <div class="topplayer">
                 <p style="text-align: left">Here are your current top players :</p>
                 <div class="fototop">
-                    <!-- isi foto jejer player aktif -->
+                    <!-- for each foto atlet isActive -->
                     <div>
                         <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
                             class="rounded-circle" alt="Team Logo">

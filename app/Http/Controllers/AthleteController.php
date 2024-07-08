@@ -86,10 +86,10 @@ class AthleteController extends Controller
     public function setting(Athlete $athlete)
     {
         // Fetch device IDs from the database
-        $device = Device::pluck('device_id');
+       $device = Device::pluck('device_id');
 
         // Pass the device IDs to the view
-        return view('athletesetting', compact('device'));
+       return view('athletesetting', compact('device'));
 
     }
 

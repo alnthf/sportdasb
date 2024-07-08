@@ -80,9 +80,6 @@
             padding: 10px 10px;
         }
 
-        .aktif {
-            padding: 10px 12px;
-        }
 
         .reserve {
             padding: 10px 12px;

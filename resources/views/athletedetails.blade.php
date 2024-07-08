@@ -431,7 +431,7 @@
                         <div>
                             <h2 style="padding-top: 50px; text-align:left;">kcal</h2>
                         </div>
-                    </div>
+                    </div>x
 
                 </div>
             </div>
