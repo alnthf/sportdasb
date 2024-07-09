@@ -14,7 +14,7 @@
 
     <script>
         function showPass() {
-            var x = document.getElementById("password");
+            var x = document.getElementById("team_password");
             if (x.type === "password") {
                 x.type = "text";
             } else {
@@ -190,16 +190,16 @@
 
         <h1>Create a new account</h1>
 
-        <form action="{{ route('sign-up.success') }}" target="_self" method="post" enctype="multipart/form-data">
+        <form action="{{ route('sign-up.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="team_id" value="{{ $team->id ?? '' }}">
+            <input type="hidden" name="team_id" value="{{ $team->team_id ?? '' }}">
             <div class="formisi">
 
                 <label for="team_name">Team name:</label><br>
                 <input type="text" placeholder="Enter team name" id="team_name" name="team_name" required><br>
 
-                <label for="password">Password:</label><br>
-                <input type="password" placeholder="Enter password" id="password" name="password" required><br>
+                <label for="team_password">Password:</label><br>
+                <input type="password" placeholder="Enter password" id="team_password" name="team_password" required><br>
                 <input type="checkbox" id="showpass" onclick="showPass()">
                 <label for="showpass" class="shw">Show password</label>
             </div>
@@ -207,10 +207,19 @@
             <!-- Logo -->
             <div class="uploadlg">
                 <!-- ini nanti edit biar jadi placeholder upload -->
+                <script>
+                    var loadFile = function(event) {
+                      var output = document.getElementById('output');
+                      output.src = URL.createObjectURL(event.target.files[0]);
+                      output.onload = function() {
+                        URL.revokeObjectURL(output.src) // free memory
+                      }
+                    };
+                  </script>
                 <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                    class="img-circle" alt="Team Logo">
+                    class="img-circle" alt="Team Logo" id="output"/>
 
-                <input type="file" class="uploadbtn" name="team_logo" id="team_logo">
+                <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn" name="team_logo" id="team_logo">
 
             </div>
 

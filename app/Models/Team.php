@@ -13,6 +13,7 @@ class Team extends Model
      * @var string
      */
     protected $table = 'team';
+    protected $fillable = ['team_name', 'team_password', 'team_logo'];
 
      /**
      * The primary key associated with the table.

@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+           'provider' => 'team',
         ],
     ],
 
@@ -64,6 +64,26 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+
+        'team' => [
+        'driver' => 'eloquent',
+        'model' => \App\Models\Team::class,
+        ],
+
+        'athlete' => [
+        'driver' => 'eloquent',
+        'model' => \App\Models\Athlete::class,
+         ],
+
+        'device' => [
+        'driver' => 'eloquent',
+        'model' => \App\Models\Device::class,
+         ],
+
+        'record' => [
+        'driver' => 'eloquent',
+        'model' => \App\Models\Record::class,
+         ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -91,8 +111,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'team' => [
+            'provider' => 'team',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

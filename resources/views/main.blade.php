@@ -223,13 +223,15 @@
             <h1>Welcome back,</h1>
 
             <div class="conamatim">
-                <!-- <p> $ team_name </p> -->
-                <p>Tim Garuda</p>
+                <p>{{ $team->team_name }}</p>
             </div>
 
             <div class="cologotim">
-                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                    class="logotim" alt="Team Logo">
+                @if ($team->team_logo)
+                <img src="{{ asset('storage/' . $team->team_logo) }}" class="team_logo" alt="Team Logo">
+            @else
+                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg" class="team_logo" alt="No Logo">
+            @endif
             </div>
         </div>
 

@@ -14,7 +14,7 @@
 
     <script>
         function showPass() {
-            var x = document.getElementById("password");
+            var x = document.getElementById("team_password");
             if (x.type === "password") {
                 x.type = "text";
             } else {
@@ -154,12 +154,13 @@
         <h1>Sign in to your dashboard</h1>
 
         <form action="{{ route('sign-in.success') }}" target="_self" method="post">
+            @csrf
             <div class="isian">
                 <label for="team_name">Team name:</label><br>
                 <input type="text" placeholder="Enter team name" id="team_name" name="team_name" required><br>
 
-                <label for="password">Password:</label><br>
-                <input type="password" placeholder="Enter password" id="password" name="password" required><br>
+                <label for="team_password">Password:</label><br>
+                <input type="password" placeholder="Enter password" id="team_password" name="team_password" required><br>
 
                 <input type="checkbox" id="showpass" onclick="showPass()">
                 <label for="showpass" class="shw">Show password</label>

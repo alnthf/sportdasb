@@ -20,7 +20,8 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('sign-up', 'App\Http\Controllers\TeamController@create')->name('sign-up');
-Route::post('sign-up', 'App\Http\Controllers\TeamController@store')->name('sign-up.success');
+Route::post('sign-up', 'App\Http\Controllers\TeamController@store')->name('sign-up.store');
+Route::get('sign-up/success', 'App\Http\Controllers\TeamController@success')->name('sign-up.success');
 
 Route::get('sign-in', 'App\Http\Controllers\TeamController@login')->name('sign-in');
 Route::post('sign-in', 'App\Http\Controllers\TeamController@verified')->name('sign-in.success');

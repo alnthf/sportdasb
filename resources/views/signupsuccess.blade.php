@@ -55,10 +55,11 @@
             color: white;
             border-radius: 20px;
             text-align: center;
-            font-size: 20px;
+            font-size: 17px;
+            display: inline-block;
             width: 140px;
-            height: 40px;
-            margin-left: 0;
+            height: 35px;
+            margin-right: 0;
             opacity: 1;
             transition: 0.3s;
             cursor: pointer;
@@ -75,9 +76,10 @@
             color: white;
             border-radius: 20px;
             text-align: center;
-            font-size: 20px;
+            font-size: 17px;
+            display: inline-block;
             width: 140px;
-            height: 40px;
+            height: 35px;
             margin-right: 0;
             opacity: 1;
             transition: 0.3s;
@@ -96,8 +98,9 @@
 
     <div class="container">
         <h1>Sign up success!</h1>
+        <br><br>
         <p>Please sign in through the button below</p>
-
+<br><br>
         <!-- Tombol -->
 
         <div class="choose">
