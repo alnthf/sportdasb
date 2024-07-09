@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Athlete extends Model
 {
-    use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'athlete';
 }
