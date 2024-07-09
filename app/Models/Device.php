@@ -13,4 +13,18 @@ class Device extends Model
      * @var string
      */
     protected $table = 'device';
+
+     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'device_id';
+
+  /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

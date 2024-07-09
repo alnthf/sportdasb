@@ -13,4 +13,18 @@ class Athlete extends Model
      * @var string
      */
     protected $table = 'athlete';
+
+     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'athlete_id';
+
+  /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

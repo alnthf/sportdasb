@@ -13,4 +13,18 @@ class Team extends Model
      * @var string
      */
     protected $table = 'team';
+
+     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'team_id';
+
+  /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
