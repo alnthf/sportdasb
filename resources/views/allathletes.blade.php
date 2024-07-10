@@ -209,9 +209,10 @@
 <body>
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
-        <a href="{{ route('home') }}">Main Menu</a>
+        <a href="{{ route('home') }}" class="active">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
-        <a href="{{ route('all-athlete') }}" class="active">All Athletes</a>
+        <a href="{{ route('all-athlete') }}">All Athletes</a>
+        <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
         <a href="{{ route('teamsetting') }}" class="split">Settings</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
@@ -226,9 +227,9 @@
         </div>
 
         <div class="tengah">
-            <button type="button" href="{{ route('add-profile') }}" class="addbtn">
+            <a href="{{ route('add-profile') }}" class="addbtn">
                 <span class="material-symbols-outlined">person_add</span>
-                Add profile</button>
+                Add profile</a>
             <br><br><br><br>
             <div class="grid-container">
                 <!-- Isi for each foreach($device(yang sama kayak compact) as $device)-->

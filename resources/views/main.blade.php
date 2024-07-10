@@ -211,6 +211,7 @@
         <a href="{{ route('home') }}" class="active">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
+        <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
         <a href="{{ route('teamsetting') }}" class="split">Settings</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
@@ -244,22 +245,6 @@
                 <p style="text-align: left">Here are your current top players :</p>
                 <div class="fototop">
                     <!-- for each foto atlet isActive -->
-                    <div>
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Team Logo">
-                    </div>
-                    <div>
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Team Logo">
-                    </div>
-                    <div>
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Team Logo">
-                    </div>
-                    <div>
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Team Logo">
-                    </div>
                     <div>
                         <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
                             class="rounded-circle" alt="Team Logo">

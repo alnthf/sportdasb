@@ -67,7 +67,8 @@
             padding-left: 10px;
         }
 
-        input, select {
+        input,
+        select {
             font-size: 20px;
             width: 95%;
             padding: 5px 5px;
@@ -220,9 +221,10 @@
 <body>
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
-        <a href="{{ route('home') }}">Main Menu</a>
+        <a href="{{ route('home') }}" class="active">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
+        <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
         <a href="{{ route('teamsetting') }}" class="split">Settings</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
@@ -232,25 +234,32 @@
     <div class="container">
         <br>
         <!-- Logo -->
-        <div class="uploadlg">
-            <br><br><br><br>
-            <!-- ini nanti edit biar jadi placeholder upload -->
-            <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                class="rounded-circle" alt="Athlete picture">
+        <form action="{{ route('add-profile.success') }}" target="_self" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
+            <div class="uploadlg">
+                <br><br><br><br>
+                <!-- ini nanti edit biar jadi placeholder upload -->
+                <script>
+                    var loadFile = function(event) {
+                      var output = document.getElementById('output');
+                      output.src = URL.createObjectURL(event.target.files[0]);
+                      output.onload = function() {
+                        URL.revokeObjectURL(output.src) // free memory
+                      }
+                    };
+                  </script>
+                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
+                    class="rounded-circle" alt="Athlete picture" id="output"/>
+                <br>
+                <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn" name="athlete_pic" id="athlete_pic">
+
+            </div>
             <br>
-            <input type="file" class="uploadbtn" name="athlete_pic" id="athlete_pic">
 
-        </div>
-        <br>
+            <div class="isian">
 
-        <div class="isian">
-
-            <h1>Team account</h1>
-
-            <form action="{{ route('teamsetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
-
+                <h1>Team account</h1>
                 <div class="formisi">
 
                     <label for="athlete_name">Athlete name:</label><br>
@@ -259,15 +268,14 @@
                     <div class="grid-container">
                         <div>
                             <label for="age">Age:</label><br>
-                            <input type="number" placeholder="Enter age" id="age" name="age"
-                                required><br>
+                            <input type="number" placeholder="Enter age" id="age" name="age" required><br>
                         </div>
                         <div>
                             <label for="gender">Gender:</label><br>
                             <select id="gender" name="gender" required>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                              </select><br>
+                            </select><br>
                         </div>
                         <div>
                             <label for="height">Height:</label><br>
@@ -296,34 +304,32 @@
                         <div>
                             <label for="device_id">Device ID:</label><br>
                             <select id="device_id" name="device_id" required>
-                                @foreach($device as $deviceId)
-                                    <option value="{{ $deviceId }}">{{ $deviceId }}</option>
+                                @foreach ($device as $device)
+                                    <option value="{{ $device }}">{{ $device->device_id }}</option>
                                 @endforeach
                             </select><br>
                         </div>
                     </div>
 
-                    <label for="isActive">Active status:</label><br>
-                    <select id="isActive" name="isActive" required>
-                        <option value="yes">Active player</option>
-                        <option value="no">Reserve player</option>
-                      </select><br>
+                    <label for="is_active">Active status:</label><br>
+                    <select id="is_active" name="is_active" required>
+                        @foreach ($athlete as $athlete)
+                                    <option value="{{ $athlete }}">{{ $athlete->is_active }}</option>
+                                @endforeach
+                    </select><br>
 
                 </div>
 
                 <!-- Tombol -->
 
                 <div class="option">
-                    <a href="#allathletes" class="cancelbtn">Cancel</a>
+                    <a href="{{ route('all-athlete') }}" class="cancelbtn">Cancel</a>
 
                     <button type="submit" class="submitbtn">Add profile</button>
                 </div>
 
-            </form>
-        </div>
-
+        </form>
     </div>
-
 
 </body>
 
