@@ -25,7 +25,6 @@
     </script>
     <!-- Notes -->
     <style>
-
         body {
             background-color: #FF903F;
             font-family: 'Oswald';
@@ -45,7 +44,7 @@
             padding: 10px 30px;
         }
 
-        .rounded-circle{
+        .rounded-circle {
             margin: auto;
             display: block;
             width: 300px;
@@ -238,14 +237,13 @@
                 text-align: left;
             }
         }
-
     </style>
 
 </head>
 
 <body>
-     <!-- Navbar, ganti ke rute -->
-     <div class="topnav" id="myTopnav">
+    <!-- Navbar, ganti ke rute -->
+    <div class="topnav" id="myTopnav">
         <a href="{{ route('home') }}">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
@@ -258,30 +256,40 @@
     <div class="container">
         <br><br><br><br><br>
         <!-- Logo -->
-        <div class="uploadlg">
-            <!-- ini nanti edit biar jadi placeholder upload -->
-            <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                class="rounded-circle" alt="Team Logo">
-<br>
-            <input type="file" class="uploadbtn" name="team_logo" id="team_logo">
+        <form action="{{ route('teamsetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="team_id" value="{{ $team->id ?? '' }}">
+            <div class="uploadlg">
+                <!-- ini nanti edit biar jadi placeholder upload -->
+                <script>
+                    var loadFile = function(event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                            URL.revokeObjectURL(output.src) // free memory
+                        }
+                    };
+                </script>
+                <img src="{{ asset('storage/' . $team->team_logo) }}" class="rounded-circle" alt="Team Logo"
+                    id="output" />
+                <br>
+                <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn" name="team_logo"
+                    id="team_logo">
 
-        </div>
-<br>
+            </div>
+            <br>
 
-        <div class="isian">
+            <div class="isian">
 
-            <h1>Team account</h1>
-
-            <form action="{{ route('teamsetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="team_id" value="{{ $team->id ?? '' }}">
+                <h1>Team account</h1>
                 <div class="formisi">
 
                     <label for="team_name">Team name:</label><br>
-                    <input type="text" placeholder="Enter team name" id="team_name" name="team_name" required><br>
+                    <input type="text" value="{{ $team->team_name }}" id="team_name" name="team_name"><br>
 
-                    <label for="password">Password:</label><br>
-                    <input type="password" placeholder="Enter password" id="password" name="password" required><br>
+                    <label for="team_password">Password:</label><br>
+                    <input type="password" value="{{ $team->team_password }}" id="team_password"
+                        name="team_password"><br>
                     <input type="checkbox" id="showpass" onclick="showPass()">
                     <label for="showpass" class="shw">Show password</label>
                 </div>
@@ -294,8 +302,8 @@
                     <button type="submit" class="updatebtn">Update account</button>
                 </div>
 
-            </form>
-        </div>
+        </form>
+    </div>
     </div>
 
 </body>

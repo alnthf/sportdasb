@@ -61,6 +61,7 @@
         .logotim {
             width: 200px;
             height: 200px;
+            border-radius: 100%;
         }
 
         .tengah {
@@ -228,9 +229,9 @@
 
             <div class="cologotim">
                 @if ($team->team_logo)
-                <img src="{{ asset('storage/' . $team->team_logo) }}" class="team_logo" alt="Team Logo">
+                <img src="{{ asset('storage/' . $team->team_logo) }}" class="logotim" alt="Team Logo">
             @else
-                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg" class="team_logo" alt="No Logo">
+                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg" class="logotim" alt="No Logo">
             @endif
             </div>
         </div>

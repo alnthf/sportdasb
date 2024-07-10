@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Team;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,26 +23,32 @@ class TeamController extends Controller
      */
     public function verified(Request $request)
     {
-        //Verif sign in
-     $request->validate([
-    'team_name' => 'required|string',
-    'team_password' => 'required|string',
+        // Validate the sign-in input
+    $request->validate([
+        'team_name' => 'required|string',
+        'team_password' => 'required|string',
     ]);
 
-    // Attempt to authenticate the team
+    // Retrieve credentials
     $credentials = $request->only('team_name', 'team_password');
+    $team = Team::where('team_name', $credentials['team_name'])->first();
 
-    if (Auth::attempt($credentials)) {
-        // Ke main dashboard
+    if ($credentials['team_password'] == $team->team_password) {
+        // Store the team info in the session
+        Session::put('team_id', $team->team_id);
+        Session::put('team_name', $team->team_name);
+
+        // Redirect to the main dashboard
         return redirect()->route('home');
     }
-        // Authentication failed
-        return redirect()->back()->withInput()->withErrors(['Invalid credentials.']);
+
+    // Authentication failed
+    return redirect()->back()->withInput()->withErrors(['Invalid credentials.']);
 
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new team.
      */
     public function create()
     {
@@ -48,7 +56,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created team in storage.
      */
     public function store(Request $request)
     {
@@ -88,20 +96,50 @@ class TeamController extends Controller
      */
     public function home(Team $team)
     {
-        //munculin nama sama logo tim
-        $team = Auth::user();
+        // Retrieve team_id from session
+        $team_id = Session::get('team_id');
 
-        //balik ke view
-        return view('main', compact('team'));
+         if (!$team_id) {
+        // If team_id is not in session, redirect to login or show an error
+            return redirect()->route('welcome')->withErrors(['session' => 'Please log in first']);
+        }
+
+         // Fetch the team details from the database
+        $team = Team::find($team_id);
+
+         if (!$team) {
+            // If team is not found, handle the error
+             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
+         }
+
+        // Return the view with the team details
+         return view('main', compact('team'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function setting(Team $team)
+    public function setting()
     {
-        //balik ke view
-        return view('teamsetting');
+          // Retrieve team_id from session
+          $team_id = Session::get('team_id');
+
+          if (!$team_id) {
+              // If team_id is not in session, redirect to login or show an error
+              return redirect()->route('welcome')->withErrors(['session' => 'Please log in first']);
+          }
+
+          // Fetch the team details from the database
+          $team = Team::find($team_id);
+
+          if (!$team) {
+              // If team is not found, handle the error
+              return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
+          }
+
+          // Balik ke view
+          return view('teamsetting', compact('team'));
+
     }
 
     /**
@@ -110,9 +148,45 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         //update pake post id
+        // Retrieve team_id from session
+        $team_id = Session::get('team_id');
 
-        //balik ke view
-        return redirect()->route('home');
+        if (!$team_id) {
+            // If team_id is not in session, redirect to login or show an error
+            return redirect()->route('welcome')->withErrors(['session' => 'Please log in first']);
+        }
+
+        // Fetch the team details from the database
+        $team = Team::find($team_id);
+
+        if (!$team) {
+            // If team is not found, handle the error
+            return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
+        }
+
+       //Proses storing data
+       $validatedData = $request->validate([
+           'team_name' => 'nullable|string|max:255',
+           'team_password' => 'nullable|string|min:6',
+           'team_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+       ]);
+
+       // Update team data
+        $team->team_name = $validatedData['team_name'] ?? $team->team_name;
+        if (!empty($validatedData['team_password'])) {
+            $team->team_password = $validatedData['team_password'];
+          }
+
+        if ($request->hasFile('team_logo')) {
+            $teamLogoPath = $request->file('team_logo')->store('team_logo', 'public');
+            $team->team_logo = $teamLogoPath;
+        }
+
+        // Save the updated team
+        $team->save();
+
+       //balik ke view
+       return redirect()->route('home');
     }
 
 }

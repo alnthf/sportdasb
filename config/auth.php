@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'team'),
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-           'provider' => 'team',
+           'provider' => 'users',
         ],
     ],
 
@@ -62,28 +62,8 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Models\Team::class),
         ],
-
-        'team' => [
-        'driver' => 'eloquent',
-        'model' => \App\Models\Team::class,
-        ],
-
-        'athlete' => [
-        'driver' => 'eloquent',
-        'model' => \App\Models\Athlete::class,
-         ],
-
-        'device' => [
-        'driver' => 'eloquent',
-        'model' => \App\Models\Device::class,
-         ],
-
-        'record' => [
-        'driver' => 'eloquent',
-        'model' => \App\Models\Record::class,
-         ],
 
         // 'users' => [
         //     'driver' => 'database',
