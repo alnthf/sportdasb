@@ -27,4 +27,13 @@ class Device extends Model
      * @var bool
      */
     public $timestamps = false;
+
+
+    /**
+     * Get the athlete associated with the device.
+     */
+    public function athlete()
+    {
+        return $this->belongsTo(Athlete::class);
+    }
 }

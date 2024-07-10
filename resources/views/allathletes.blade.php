@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -34,6 +35,13 @@
                 'opsz' 40
         }
 
+        .optimal {
+            color: #88FF64;
+        }
+
+        .bad {
+            color: #FF2C2C;
+        }
 
         body {
             background-color: #ffffff;
@@ -223,60 +231,79 @@
                 Add profile</button>
             <br><br><br><br>
             <div class="grid-container">
-                <!-- Isi for each foreach($athlete(yang sama kayak compact) as $athlete)-->
+                <!-- Isi for each foreach($device(yang sama kayak compact) as $device)-->
+                @foreach ($device as $device)
+                    <div class="profile">
+                        <div class="stat">
 
-                <div class="profile">
-                    <div class="stat">
-
-                        <h1 class="nama">Achiuwa #5</h1>
-                        <br>
-                        <div class="data">
-                            <div class="icon">
-                                <span class="material-symbols-outlined" style="color: #EA3323">
-                                    ecg_heart
+                            <h1 class="nama">
+                                {{ $device->athlete ? $device->athlete->name . ' #' . $device->athlete->jersey_no : 'No Data #--' }}
+                            </h1>
+                            <br>
+                            <div class="data">
+                                <div class="icon">
+                                    <span class="material-symbols-outlined" style="color: #EA3323">
+                                        ecg_heart
                                     </span>
-                            </div>
-                            <div class="jantung">
-                                <h2 class="hr">97</h2>
-                            </div>
+                                </div>
+                                <div class="jantung">
+                                    @php
+                                    $hr = $device->heart_rate;
+                                    if ($hr >= 83 && $hr <= 165) {
+                                        $hrval = 'optimal';
+                                    } else {
+                                        $hrval = 'bad';
+                                    }
+                                    @endphp
+                                    <h2 class="{{ $hrval }}">{{ $device->heart_rate }}</h2>
+                                </div>
 
-                            <div class="icon">
-                                <span class="material-symbols-outlined" style="color: #48C1FE">
-                                    oxygen_saturation
+                                <div class="icon">
+                                    <span class="material-symbols-outlined" style="color: #48C1FE">
+                                        oxygen_saturation
                                     </span>
-                            </div>
-                            <div class="oksigen">
-                                <h2 class="oxygen">98%</h2>
-                            </div>
+                                </div>
+                                <div class="oksigen">
+                                    @php
+                                    $oxy = $device->oxygen;
+                                    if ($oxy >= 90 && $oxy <= 100) {
+                                        $oxyval = 'optimal';
+                                    } else {
+                                        $oxyval = 'bad';
+                                    }
+                                    @endphp
+                                    <h2 class="{{ $oxyval }}">{{ $device->oxygen }}%</h2>
+                                </div>
 
-                            <div class="icon">
-                                <span class="material-symbols-outlined" style="color: #75FB4C">
-                                    sprint
+                                <div class="icon">
+                                    <span class="material-symbols-outlined" style="color: #75FB4C">
+                                        sprint
                                     </span>
-                            </div>
-                            <div class="kecepatan">
-                                <h2 class="speed">18 mph</h2>
+                                </div>
+                                <div class="kecepatan">
+                                    <h2 class="speed">{{ $device->speed }} mph</h2>
+                                </div>
+
                             </div>
 
                         </div>
+                        <div class="foto">
+
+                            <a href="{{ route('athletedetail', $device->athlete ? $device->athlete->id : '#') }}">
+                                <img src="{{ $device->athlete ? $device->athlete->picture_url : 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png' }}"
+                                    class="rounded-circle" alt="Athlete picture">
+                            </a>
+
+                        </div>
+
 
                     </div>
-                    <div class="foto">
 
-                        <a href="{{ route('athletedetail') }}">
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Athlete picture">
-                        </a>
-
-                    </div>
+                    <!-- Tes col)-->
 
 
-                </div>
-
-                <!-- Tes col)-->
-
-
-                <!-- Tes col)-->
+                    <!-- Tes col)-->
+                    @endforeach
 
             </div>
 

@@ -13,6 +13,9 @@ class Athlete extends Model
      * @var string
      */
     protected $table = 'athlete';
+    protected $fillable = ['athlete_name', 'age', 'gender'
+    , 'height', 'weight', 'jersey_no', 'sport_name', 'position'
+    , 'athlete_pic', 'is_active'];
 
      /**
      * The primary key associated with the table.
@@ -27,4 +30,20 @@ class Athlete extends Model
      * @var bool
      */
     public $timestamps = false;
+
+     /**
+     * Get the device associated with the athlete.
+     */
+    public function device()
+    {
+        return $this->hasOne(Device::class);
+    }
+
+     /**
+     * Get the team that owns the athlete.
+     */
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

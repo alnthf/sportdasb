@@ -30,4 +30,12 @@ class Team extends Authenticatable
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the athletes for the team.
+     */
+    public function athletes()
+    {
+        return $this->hasMany(Athlete::class);
+    }
 }
