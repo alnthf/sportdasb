@@ -63,10 +63,20 @@ class AthleteController extends Controller
         }
 
         //tampilin sesuai data aktif sama reserve
+        // Retrieve active athletes for the team
+        $activeAthlete = Athlete::where('team_id', $team_id)
+        ->where('is_active', 1)
+        ->with('device')
+        ->get();
 
+        // Retrieve inactive athletes for the team
+        $inactiveAthlete = Athlete::where('team_id', $team_id)
+        ->where('is_active', 0)
+        ->with('device')
+        ->get();
 
         //balik ke view
-        return view('match');
+        return view('match',compact('activeAthlete', 'inactiveAthlete'));
     }
 
      /**

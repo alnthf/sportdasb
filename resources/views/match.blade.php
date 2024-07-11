@@ -51,7 +51,7 @@
         }
 
         .atas {
-            padding: 12px 12px;
+            padding: 10px 12px;
             font-size: 70px;
             text-align: left;
         }
@@ -65,8 +65,8 @@
             background-color: #FF903F;
             color: white;
             border-radius: 10px;
-            height: 520px;
-            width: 180px;
+            height: auto;
+            width: 200px;
             padding: 10px 10px;
         }
 
@@ -75,8 +75,8 @@
             background-color: #FF903F;
             color: white;
             border-radius: 10px;
-            height: 550px;
-            width: 180px;
+            height: auto;
+            width: 200px;
             padding: 10px 10px;
         }
 
@@ -96,6 +96,7 @@
             border-radius: 10px;
             padding: 5px 5px;
             text-align: center;
+            height: auto;
         }
 
         .foto {
@@ -129,6 +130,7 @@
 
         .tuker {
             padding: 10px 10px;
+            margin: auto;
         }
 
         .container {
@@ -139,7 +141,7 @@
         .grid-container {
             display: grid;
             grid-template-columns: auto auto auto auto auto;
-            row-gap: 5px;
+            column-gap: 5px;
         }
 
         .grid-con {
@@ -206,8 +208,7 @@
             display: inline-block;
             width: 140px;
             height: 35px;
-            padding-top: 5px;
-            margin-left: 0;
+            margin: auto;
             opacity: 1;
             transition: 0.3s;
             cursor: pointer;
@@ -354,60 +355,71 @@
 
             <div class="grid-container">
                 <!-- Isi for each foreach $athlete yang isActive iya-->
+                @foreach ($activeAthlete as $athlete)
+                    <div class="profile">
 
-                <div class="profile">
+                        <div class="labelnama">
+                            <h2>{{$athlete->athlete_name }}</h2>
+                            <h4>{{ $athlete->position }} #{{ $athlete->jersey_no }}</h4>
 
-                    <div class="labelnama">
-                        <h2>Achiuwa</h2>
-                        <h4>Forward #5</h4>
+                        </div>
 
-                    </div>
-
-                    <div class="foto">
-                        <br>
-                        <a href="{{ route('athletedetail') }}">
-                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                        <div class="foto">
+                            <br>
+                            @if ($athlete && $athlete->atlete_pic)
+                            <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
                                 class="rounded-circle" alt="Athlete picture">
-                        </a>
+                            </a>
+                        @else
+                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                class="rounded-circle" alt="No picture">
+                            </a>
+                        @endif
+
+                        </div>
+                        <br><br>
+
+                        <div class="stat">
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #EA3323">
+                                    ecg_heart
+                                </span>
+                            </div>
+                            <div class="jantung">
+                                @if ($athlete->device)
+                                <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
+                                @endif
+                            </div>
+
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #48C1FE">
+                                    oxygen_saturation
+                                </span>
+                            </div>
+                            <div class="oksigen">
+                                @if ($athlete->device)
+                                <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
+                                @endif
+                            </div>
+
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #75FB4C">
+                                    sprint
+                                </span>
+                            </div>
+                            <div class="kecepatan">
+                                @if ($athlete->device)
+                                <h2 class="speed">{{ $athlete->device->speed }} mph</h2>
+                                @endif
+                            </div>
+
+                        </div>
+
+
                     </div>
-                    <br><br>
-
-                    <div class="stat">
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #EA3323">
-                                ecg_heart
-                            </span>
-                        </div>
-                        <div class="jantung">
-                            <h2 class="hr">97</h2>
-                        </div>
-
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #48C1FE">
-                                oxygen_saturation
-                            </span>
-                        </div>
-                        <div class="oksigen">
-                            <h2 class="oxygen">98%</h2>
-                        </div>
-
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #75FB4C">
-                                sprint
-                            </span>
-                        </div>
-                        <div class="kecepatan">
-                            <h2 class="speed">18 mph</h2>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <!-- Tes col)-->
-
-                <!-- Tes col)-->
+                @endforeach
 
             </div>
 
@@ -420,135 +432,144 @@
             <br><br>
             <div class="grid-container">
                 <!-- Isi for each foreach $athlete yang isActive nggak-->
+                @foreach ($inactiveAthlete as $athlete)
+                    <div class="profilereserve">
 
-                <div class="profilereserve">
+                        <div class="labelnama">
+                            <h2>{{$athlete->athlete_name }}</h2>
+                            <h4>{{ $athlete->position }} #{{ $athlete->jersey_no }}</h4>
 
-                    <div class="labelnama">
-                        <h2>Achiuwa</h2>
-                        <h4>Forward #5</h4>
+                        </div>
 
-                    </div>
-
-                    <div class="foto">
-                        <br>
-                        <a href="{{ route('athletedetail') }}">
-                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                        <div class="foto">
+                            <br>
+                            @if ($athlete && $athlete->atlete_pic)
+                            <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
                                 class="rounded-circle" alt="Athlete picture">
-                        </a>
-                    </div>
-                    <br><br>
+                            </a>
+                        @else
+                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                class="rounded-circle" alt="No picture">
+                            </a>
+                        @endif
 
-                    <div class="stat">
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #EA3323">
-                                ecg_heart
-                            </span>
                         </div>
-                        <div class="jantung">
-                            <h2 class="hr">97</h2>
+                        <br><br>
+
+                        <div class="stat">
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #EA3323">
+                                    ecg_heart
+                                </span>
+                            </div>
+                            <div class="jantung">
+                                @if ($athlete->device)
+                                <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
+                                @endif
+                            </div>
+
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #48C1FE">
+                                    oxygen_saturation
+                                </span>
+                            </div>
+                            <div class="oksigen">
+                                @if ($athlete->device)
+                                <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
+                                @endif
+                            </div>
+
+                            <div class="icon">
+                                <span class="material-symbols-outlined" style="color: #75FB4C">
+                                    sprint
+                                </span>
+                            </div>
+                            <div class="kecepatan">
+                                @if ($athlete->device)
+                                <h2 class="speed">{{ $athlete->device->speed }} mph</h2>
+                                @endif
+                            </div>
+
                         </div>
 
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #48C1FE">
-                                oxygen_saturation
-                            </span>
-                        </div>
-                        <div class="oksigen">
-                            <h2 class="oxygen">98%</h2>
-                        </div>
+                        <div class="tuker">
+                            <!-- Tombol -->
+                            <button type="button" class="swapbtn" data-toggle="modal" data-target="#swapModal">
+                                Swap to active
+                            </button>
 
-                        <div class="icon">
-                            <span class="material-symbols-outlined" style="color: #75FB4C">
-                                sprint
-                            </span>
-                        </div>
-                        <div class="kecepatan">
-                            <h2 class="speed">18 mph</h2>
-                        </div>
+                            <!-- The Modal -->
+                            <div class="modal" id="swapModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
 
-                    </div>
-
-                    <div class="tuker">
-                        <!-- Tombol -->
-                        <button type="button" class="swapbtn" data-toggle="modal" data-target="#swapModal">
-                            Delete profile
-                        </button>
-
-                        <!-- The Modal -->
-                        <div class="modal" id="swapModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <br>
-                                        <form class="modal-isi" action="{{ route('swap') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
-                                            <h5 class="h4">
-                                                Select an active athlete to swap
-                                            </h5>
-                                            <h5 class="h4">
-                                                positions with :
-                                            </h5>
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             <br>
+                                            <form class="modal-isi" action="{{ route('swap') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="athlete_id"
+                                                    value="{{ $athlete->id ?? '' }}">
+                                                <h5 class="h4">
+                                                    Select an active athlete to swap
+                                                </h5>
+                                                <h5 class="h4">
+                                                    positions with :
+                                                </h5>
+                                                <br>
 
-                                            <div class="grid-con">
-                                                <!-- Isi for each foreach $athlete yang isActive iya-->
+                                                <div class="grid-con">
+                                                    <!-- Isi for each foreach $athlete yang isActive iya-->
 
-                                                <div class="profileswap">
-                                                    <div class="statswap">
+                                                    <div class="profileswap">
+                                                        <div class="statswap">
 
-                                                        <h4 class="namaswap">Achiuwa</h4>
-                                                        <h5 class="namaswap">Forward #5</h5>
+                                                            <h4 class="namaswap">Achiuwa</h4>
+                                                            <h5 class="namaswap">Forward #5</h5>
+
+                                                        </div>
+                                                        <div class="fotoswap">
+
+                                                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                                                class="rounded-circleswap" alt="Athlete picture">
+
+                                                        </div>
+                                                        <div class="selectswap">
+                                                            <input type="checkbox" id="selectswap"
+                                                                onclick="selectSwap()">
+                                                        </div>
 
                                                     </div>
-                                                    <div class="fotoswap">
 
-                                                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                                                            class="rounded-circleswap" alt="Athlete picture">
 
-                                                    </div>
-                                                    <div class="selectswap">
-                                                        <input type="checkbox" id="selectswap"
-                                                            onclick="selectSwap()">
-                                                    </div>
 
                                                 </div>
 
+                                                <div class="option">
+                                                    <br>
+                                                    <button type="button" class="cancelbtn"
+                                                        data-dismiss="modal">Cancel</button>
 
-                                                <!-- batas suci-->
-                                                <!-- Tes col)-->
+                                                    <button type="submit" class="swapconbtn">Swap athletes</button>
+                                                </div>
+                                            </form>
 
-                                                <!-- Tes col)-->
-                                            </div>
+                                        </div>
 
-                                            <div class="option">
-                                                <br>
-                                                <button type="button" class="cancelbtn"
-                                                    data-dismiss="modal">Cancel</button>
 
-                                                <button type="submit" class="swapconbtn">Swap athletes</button>
-                                            </div>
-                                        </form>
 
                                     </div>
-
-
-
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
+                @endforeach
 
-
-                </div>
-
-                <!-- Tes col)-->
-
-
-                <!-- Tes col)-->
 
             </div>
 
