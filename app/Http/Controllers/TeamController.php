@@ -189,4 +189,12 @@ class TeamController extends Controller
        return redirect()->route('home');
     }
 
+    public function logout()
+{
+    Session::forget('team_id');
+
+    // Redirect to the login page or wherever appropriate
+    return redirect()->route('welcome');
+}
+
 }

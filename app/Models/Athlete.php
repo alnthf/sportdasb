@@ -15,7 +15,7 @@ class Athlete extends Model
     protected $table = 'athlete';
     protected $fillable = ['athlete_name', 'age', 'gender'
     , 'height', 'weight', 'jersey_no', 'sport_name', 'position'
-    , 'athlete_pic', 'is_active'];
+    , 'athlete_pic', 'is_active','team_id'];
 
      /**
      * The primary key associated with the table.
@@ -46,4 +46,5 @@ class Athlete extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
 }

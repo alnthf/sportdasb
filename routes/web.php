@@ -26,6 +26,8 @@ Route::get('sign-up/success', 'App\Http\Controllers\TeamController@success')->na
 Route::get('sign-in', 'App\Http\Controllers\TeamController@login')->name('sign-in');
 Route::post('sign-in', 'App\Http\Controllers\TeamController@verified')->name('sign-in.success');
 
+Route::get('sign-out', 'App\Http\Controllers\TeamController@logout')->name('sign-out');
+
 // Isi dashboard tim
 
 Route::get('home', 'App\Http\Controllers\TeamController@home')->name('home');
@@ -40,7 +42,7 @@ Route::post('home/match', 'App\Http\Controllers\AthleteController@swap')->name('
 
 Route::get('home/all-athlete', 'App\Http\Controllers\AthleteController@index')->name('all-athlete');
 
-Route::get('home/all-athlete/add-profile', 'App\Http\Controllers\AthleteController@create')->name('add-profile');
+Route::get('home/all-athlete/add-profile/{device_id}', 'App\Http\Controllers\AthleteController@create')->name('add-profile');
 Route::post('home/all-athlete/add-profile', 'App\Http\Controllers\AthleteController@store')->name('add-profile.success');
 
 Route::get('home/all-athlete/athlete-detail', 'App\Http\Controllers\AthleteController@show')->name('athletedetail');

@@ -221,7 +221,7 @@
 <body>
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
-        <a href="{{ route('home') }}" class="active">Main Menu</a>
+        <a href="{{ route('home') }}" >Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
         <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
@@ -231,104 +231,115 @@
         </a>
     </div>
 
+
     <div class="container">
         <br>
         <!-- Logo -->
-        <form action="{{ route('add-profile.success') }}" target="_self" method="post" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
-            <div class="uploadlg">
-                <br><br><br><br>
-                <!-- ini nanti edit biar jadi placeholder upload -->
-                <script>
-                    var loadFile = function(event) {
-                      var output = document.getElementById('output');
-                      output.src = URL.createObjectURL(event.target.files[0]);
-                      output.onload = function() {
-                        URL.revokeObjectURL(output.src) // free memory
-                      }
-                    };
-                  </script>
-                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                    class="rounded-circle" alt="Athlete picture" id="output"/>
+        @if ($device)
+            <form action="{{ route('add-profile.success') }}" target="_self" method="post"
+                enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
+                <div class="uploadlg">
+                    <br><br><br><br>
+                    <!-- ini nanti edit biar jadi placeholder upload -->
+                    <script>
+                        var loadFile = function(event) {
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function() {
+                                URL.revokeObjectURL(output.src) // free memory
+                            }
+                        };
+                    </script>
+                    <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
+                        class="rounded-circle" alt="Athlete picture" id="output" />
+                    <br>
+                    <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn"
+                        name="athlete_pic" id="athlete_pic">
+
+                </div>
                 <br>
-                <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn" name="athlete_pic" id="athlete_pic">
 
-            </div>
-            <br>
+                <div class="isian">
 
-            <div class="isian">
+                    <h1>Team account</h1>
+                    <div class="formisi">
 
-                <h1>Team account</h1>
-                <div class="formisi">
+                        <label for="athlete_name">Athlete name:</label><br>
+                        <input type="text" placeholder="Enter team name" id="athlete_name" name="athlete_name"
+                            required><br>
 
-                    <label for="athlete_name">Athlete name:</label><br>
-                    <input type="text" placeholder="Enter team name" id="team_name" name="team_name" required><br>
-
-                    <div class="grid-container">
-                        <div>
-                            <label for="age">Age:</label><br>
-                            <input type="number" placeholder="Enter age" id="age" name="age" required><br>
+                        <div class="grid-container">
+                            <div>
+                                <label for="age">Age:</label><br>
+                                <input type="number" placeholder="Enter age" id="age" name="age"><br>
+                            </div>
+                            <div>
+                                <label for="gender">Gender:</label><br>
+                                <select id="gender" name="gender" required>
+                                    @foreach ($genderOptions as $gender)
+                                    <option value="{{ $gender }}">{{ ucfirst($gender) }}</option>
+                                @endforeach
+                                </select><br>
+                            </div>
+                            <div>
+                                <label for="height">Height:</label><br>
+                                <input type="number" placeholder="Enter height (in cm)" id="height" name="height"
+                                    required><br>
+                            </div>
+                            <div>
+                                <label for="weight">Weight:</label><br>
+                                <input type="number" placeholder="Enter height (in kg)" id="weight" name="weight"
+                                    required><br>
+                            </div>
                         </div>
-                        <div>
-                            <label for="gender">Gender:</label><br>
-                            <select id="gender" name="gender" required>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select><br>
+
+                        <label for="sport_name">Sport name:</label><br>
+                        <input type="text" placeholder="Enter sport name" id="sport_name" name="sport_name"
+                            required><br>
+
+                        <label for="position">Position:</label><br>
+                        <input type="text" placeholder="Enter position" id="position" name="position" required><br>
+
+                        <div class="grid-container">
+                            <div>
+                                <label for="jersey_no">Athlete name:</label><br>
+                                <input type="number" placeholder="Enter jersey number" id="jersey_no" name="jersey_no"
+                                    required><br>
+                            </div>
+                            <div>
+                                <label for="device_id">Device ID:</label><br>
+                                <select id="device_id" name="device_id" readonly>
+                                    @if ($device)
+                                    <option value="{{ $device->device_id }}">
+                                        {{ $device->device_id}}</option>
+                                    @endif
+                                </select><br>
+                            </div>
                         </div>
-                        <div>
-                            <label for="height">Height:</label><br>
-                            <input type="number" placeholder="Enter height (in cm)" id="height" name="height"
-                                required><br>
-                        </div>
-                        <div>
-                            <label for="weight">Weight:</label><br>
-                            <input type="number" placeholder="Enter height (in kg)" id="weight" name="weight"
-                                required><br>
-                        </div>
+
+                        <label for="is_active">Active status:</label><br>
+                        <select id="is_active" name="is_active" required>
+
+                            @foreach ($isActiveOptions as $isActive)
+                            <option value="{{ $isActive }}">{{ $isActive ? 'Active' : 'Inactive' }}</option>
+                        @endforeach
+
+                        </select><br>
+
                     </div>
 
-                    <label for="sport_name">Sport name:</label><br>
-                    <input type="text" placeholder="Enter sport name" id="sport_name" name="sport_name" required><br>
+                    <!-- Tombol -->
 
-                    <label for="position">Position:</label><br>
-                    <input type="text" placeholder="Enter position" id="position" name="position" required><br>
+                    <div class="option">
+                        <a href="{{ route('all-athlete') }}" class="cancelbtn">Cancel</a>
 
-                    <div class="grid-container">
-                        <div>
-                            <label for="jersey_no">Athlete name:</label><br>
-                            <input type="number" placeholder="Enter jersey number" id="jersey_no" name="jersey_no"
-                                required><br>
-                        </div>
-                        <div>
-                            <label for="device_id">Device ID:</label><br>
-                            <select id="device_id" name="device_id" required>
-                                @foreach ($device as $device)
-                                    <option value="{{ $device }}">{{ $device->device_id }}</option>
-                                @endforeach
-                            </select><br>
-                        </div>
+                        <button type="submit" class="submitbtn">Add profile</button>
                     </div>
 
-                    <label for="is_active">Active status:</label><br>
-                    <select id="is_active" name="is_active" required>
-                        @foreach ($athlete as $athlete)
-                                    <option value="{{ $athlete }}">{{ $athlete->is_active }}</option>
-                                @endforeach
-                    </select><br>
-
-                </div>
-
-                <!-- Tombol -->
-
-                <div class="option">
-                    <a href="{{ route('all-athlete') }}" class="cancelbtn">Cancel</a>
-
-                    <button type="submit" class="submitbtn">Add profile</button>
-                </div>
-
-        </form>
+            </form>
+        @endif
     </div>
 
 </body>
