@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script>
         function myFunction() {
             var x = document.getElementById("myTopnav");
@@ -296,7 +297,7 @@
                 </a>
             </div>
             <div class="setting">
-                <a href="{{ route('athletesetting') }}">
+                <a href="{{ route('athletesetting', ['athlete_id' => $athlete->athlete_id]) }}">
                     <span class="material-symbols-outlined" style="color: #ffffff">
                         settings
                     </span>
@@ -355,9 +356,34 @@
 
         <div class="tengah">
             <div class="graph">
-                <!-- buat grafik -->
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDnFI-LZToT2rDaU2u7LWKfwpwfxW_aKXytA&s"
-                    class="grafik" alt="Heart graphic">
+
+                    <canvas id="hrplot" style="width:80%;height:300px;"></canvas>
+                    <script>
+                        const heartRates = {!! json_encode($heartRates) !!};
+                        const xValues = heartRates.map((_, index) => index + 1);
+
+                        new Chart("hrplot", {
+                          type: "line",
+                          data: {
+                            labels: xValues,
+                            datasets: [{
+                              fill: false,
+                              lineTension: 0,
+                              backgroundColor: "#000000",
+                              borderColor: "#FF903F",
+                              data: heartRates
+                            }]
+                          },
+                          options: {
+                            legend: {display: false},
+                            scales: {
+                              yAxes: [{ticks: {min: 70, max:150}}],
+                            }
+                          }
+                        });
+                        </script>
+
+
             </div>
 
             <div class="heartstat">

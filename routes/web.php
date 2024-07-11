@@ -47,6 +47,6 @@ Route::post('home/all-athlete/add-profile', 'App\Http\Controllers\AthleteControl
 
 Route::get('home/all-athlete/athlete-detail/{athlete_id}', 'App\Http\Controllers\AthleteController@show')->name('athletedetail');
 
-Route::get('home/all-athlete/athlete-detail/athlete-setting', 'App\Http\Controllers\AthleteController@setting')->name('athletesetting');
-Route::post('home/all-athlete/athlete-detail/athlete-setting', 'App\Http\Controllers\AthleteController@update')->name('athletesetting.changed');
-Route::delete('home/all-athlete/athlete-detail/athlete-setting', 'App\Http\Controllers\AthleteController@destroy')->name('athletesetting.deleted');
+Route::get('home/all-athlete/athlete-detail/{athlete_id}/athlete-setting', 'App\Http\Controllers\AthleteController@setting')->name('athletesetting');
+Route::post('home/all-athlete/athlete-detail/{athlete_id}/athlete-setting', 'App\Http\Controllers\AthleteController@update')->name('athletesetting.changed');
+Route::delete('home/all-athlete/athlete-detail/{athlete_id}/athlete-setting', 'App\Http\Controllers\AthleteController@destroy')->name('athletesetting.deleted');

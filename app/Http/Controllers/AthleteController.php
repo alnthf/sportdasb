@@ -123,7 +123,7 @@ class AthleteController extends Controller
         // mengambil data device berdasarkan id yang dipilih
 	    $device = DB::table('device')->where('device_id',$device_id)->first();
 
-         // Retrieve distinct gender and is_active values from the athlete table
+        // Retrieve distinct gender and is_active values from the athlete table
         $genderOptions = DB::table('athlete')->distinct()->pluck('gender');
         $isActiveOptions = DB::table('athlete')->distinct()->pluck('is_active');
 
@@ -214,17 +214,21 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
-         // mengambil data athlete berdasarkan id yang dipilih
-         $athlete = Athlete::with('device')->findOrFail($athlete_id);
+        // mengambil data athlete berdasarkan id yang dipilih
+        $athlete = Athlete::with('device')->findOrFail($athlete_id);
+
+        $heartRates = Device::where('athlete_id', $athlete->athlete_id)
+        ->pluck('heart_rate')
+        ->toArray();
 
         //balik ke view
-        return view('athletedetails', compact('athlete'));
+        return view('athletedetails', compact('athlete', 'heartRates'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function setting(Athlete $athlete)
+    public function setting($athlete_id)
     {
         // Retrieve team_id from session
         $team_id = Session::get('team_id');
@@ -242,19 +246,28 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
+        // mengambil data athlete berdasarkan id yang dipilih
+        $athlete = Athlete::with('device')->findOrFail($athlete_id);
+
+        // Retrieve distinct gender and is_active values from the athlete table
+        $genderOptions = DB::table('athlete')->distinct()->pluck('gender');
+        $isActiveOptions = DB::table('athlete')->distinct()->pluck('is_active');
 
 
         // Pass the device IDs to the view
-       return view('athletesetting', compact('device'));
+        return view('athletesetting', compact('athlete','genderOptions', 'isActiveOptions'));
 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Athlete $athlete)
+    public function update(Request $request, $athlete_id)
     {
-        //session team
+
+        // Debugging
+        //dd($request->all());
+
         // Retrieve team_id from session
         $team_id = Session::get('team_id');
 
@@ -271,15 +284,53 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
+        // mengambil data athlete berdasarkan id yang dipilih
+        $athlete = Athlete::with('device')->findOrFail($athlete_id);
+
+     // Validate the request data
+     $validatedData = $request->validate([
+        'athlete_name' => 'required|string|max:255',
+        'age' => 'nullable|integer',
+        'gender' => 'required|string|in:L,P',
+        'height' => 'required|integer',
+        'weight' => 'required|integer',
+        'sport_name' => 'required|string|max:255',
+        'position' => 'required|string|max:255',
+        'jersey_no' => 'required|integer',
+        'is_active' => 'required|string|in:0,1',
+        'atlete_pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+
+           // Update athlete details
+           $athlete->athlete_name = $validatedData['athlete_name'] ?? $athlete->athlete_name;
+           $athlete->age = $validatedData['age'] ??  $athlete->age;
+           $athlete->gender = $validatedData['gender'] ??  $athlete->gender;
+           $athlete->height = $validatedData['height'] ??  $athlete->height;
+           $athlete->weight = $validatedData['weight'] ?? $athlete->weight;
+           $athlete->sport_name = $validatedData['sport_name'] ??  $athlete->sport_name;
+           $athlete->position = $validatedData['position'] ??$athlete->position;
+           $athlete->jersey_no = $validatedData['jersey_no'] ??  $athlete->jersey_no;
+           $athlete->is_active = $validatedData['is_active'] ??  $athlete->is_active;
+           $athlete->team_id = $team_id;
+
+        // Handle file upload if exists
+        if ($request->hasFile('atlete_pic')) {
+        $atletePicPath = $request->file('atlete_pic')->store('atlete_pic', 'public');
+        $athlete->atlete_pic = $atletePicPath;
+        }
+
+         // Save the updated team
+        $athlete->save();
 
         //balik ke view detail atlet
-        return redirect()->route('athletedetail');
+        return redirect()->route('athletedetail', ['athlete_id' => $athlete->athlete_id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Athlete $athlete)
+    public function destroy($athlete_id)
     {
         // Retrieve team_id from session
         $team_id = Session::get('team_id');
@@ -297,8 +348,10 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
-        //delete profile
-        $athlete->delete();
+        // mengambil data athlete berdasarkan id yang dipilih
+        $athlete = Athlete::with('device')->findOrFail($athlete_id);
+
+        DB::table('athlete')->where('athlete_id',$athlete_id)->delete();
 
         //balik ke view utama
         return redirect()->route('all-athlete');

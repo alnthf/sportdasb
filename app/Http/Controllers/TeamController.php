@@ -173,6 +173,7 @@ class TeamController extends Controller
 
        // Update team data
         $team->team_name = $validatedData['team_name'] ?? $team->team_name;
+        
         if (!empty($validatedData['team_password'])) {
             $team->team_password = $validatedData['team_password'];
           }

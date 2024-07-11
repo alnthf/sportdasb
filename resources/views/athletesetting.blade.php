@@ -64,6 +64,18 @@
             float: right;
         }
 
+        .deviceid {
+            font-size: 20px;
+            width: 95%;
+            padding: 5px 5px;
+            margin: 8px 8px;
+            display: inline-block;
+            border: 1px solid #bdbdbd;
+            background-color: #E4E4E4;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
 
         .grid-container {
             display: grid;
@@ -295,109 +307,120 @@
     </div>
 
     <div class="container">
-        <br>
-        <!-- Logo -->
-        <div class="uploadlg">
-            <br><br><br><br>
-            <!-- ini nanti edit biar jadi placeholder upload -->
-            <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                class="rounded-circle" alt="Athlete picture">
+        @if ($athlete)
             <br>
-            <input type="file" class="uploadbtn" name="athlete_pic" id="athlete_pic">
-
-        </div>
-        <br>
-
-        <div class="isian">
-
-            <h1>Team account</h1>
-
-            <form action="{{ route('athletesetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
+            <!-- Logo -->
+            <form action="{{ route('athletesetting.changed', ['athlete_id' => $athlete->athlete_id]) }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
+                <input type="hidden" name="athlete_id" value="{{ $athlete->athlete_id }}">
+                <div class="uploadlg">
+                    <br><br><br><br>
+                    <!-- ini nanti edit biar jadi placeholder upload -->
+                    <script>
+                        var loadFile = function(event) {
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function() {
+                                URL.revokeObjectURL(output.src) // free memory
+                            }
+                        };
+                    </script>
+                    <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
+                        class="rounded-circle" alt="Athlete picture" id="output" />
+                    <br>
+                    <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn"
+                        name="atlete_pic" id="atlete_pic">
+                </div>
+                <br>
 
-                <div class="formisi">
+                <div class="isian">
 
-                    <label for="athlete_name">Athlete name:</label><br>
-                    <input type="text" placeholder="Enter team name" id="team_name" name="team_name" required><br>
+                    <h1>Team account</h1>
 
-                    <div class="grid-container">
-                        <div>
-                            <label for="age">Age:</label><br>
-                            <input type="number" placeholder="Enter age" id="age" name="age" required><br>
+                    <div class="formisi">
+
+                        <label for="athlete_name">Athlete name:</label><br>
+                        <input type="text" value="{{ $athlete->athlete_name }}" id="athlete_name" name="athlete_name"><br>
+
+                        <div class="grid-container">
+                            <div>
+                                <label for="age">Age:</label><br>
+                                <input type="number" value="{{ $athlete->age }}" id="age" name="age"><br>
+                            </div>
+                            <div>
+                                <label for="gender">Gender:</label><br>
+                                <select id="gender" name="gender">
+                                    @foreach ($genderOptions as $gender)
+                                        <option value="{{ $gender }}">{{ ucfirst($gender) }}</option>
+                                    @endforeach
+                                </select><br>
+                            </div>
+                            <div>
+                                <label for="height">Height:</label><br>
+                                <input type="number" value="{{ $athlete->height }}" id="height" name="height"><br>
+                            </div>
+                            <div>
+                                <label for="weight">Weight:</label><br>
+                                <input type="number" value="{{ $athlete->weight }}" id="weight" name="weight"><br>
+                            </div>
                         </div>
-                        <div>
-                            <label for="gender">Gender:</label><br>
-                            <select id="gender" name="gender" required>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select><br>
+
+                        <label for="sport_name">Sport name:</label><br>
+                        <input type="text" value="{{ $athlete->sport_name }}" id="sport_name" name="sport_name"><br>
+
+                        <label for="position">Position:</label><br>
+                        <input type="text" value="{{ $athlete->position }}" id="position" name="position"><br>
+
+                        <div class="grid-container">
+                            <div>
+                                <label for="jersey_no">Jersey no:</label><br>
+                                <input type="number" value="{{ $athlete->jersey_no }}" id="jersey_no"
+                                    name="jersey_no"><br>
+                            </div>
+                            <div>
+                                <label for="device_id">Device ID:</label><br>
+                                @if ($athlete->device)
+                                    <p class="deviceid">
+                                        {{ $athlete->device->device_id }}</p>
+                                @endif
+                                <br>
+                            </div>
                         </div>
-                        <div>
-                            <label for="height">Height:</label><br>
-                            <input type="number" placeholder="Enter height (in cm)" id="height" name="height"
-                                required><br>
-                        </div>
-                        <div>
-                            <label for="weight">Weight:</label><br>
-                            <input type="number" placeholder="Enter height (in kg)" id="weight" name="weight"
-                                required><br>
-                        </div>
+
+                        <label for="is_active">Active status:</label><br>
+                        <select id="is_active" name="is_active">
+                            @foreach ($isActiveOptions as $is_active)
+                            <option value="{{ $is_active }}" {{ $athlete->is_active == $is_active ? 'selected' : '' }}>{{ $is_active ? 'Active' : 'Inactive' }}</option>
+                                    @endforeach
+                        </select><br><br>
+
                     </div>
 
-                    <label for="sport_name">Sport name:</label><br>
-                    <input type="text" placeholder="Enter sport name" id="sport_name" name="sport_name" required><br>
+                    <!-- Tombol -->
 
-                    <label for="position">Position:</label><br>
-                    <input type="text" placeholder="Enter position" id="position" name="position" required><br>
+                    <div class="option">
+                        <button type="button" class="deletebtn" data-toggle="modal" data-target="#deleteModal">
+                            Delete profile
+                        </button>
 
-                    <div class="grid-container">
-                        <div>
-                            <label for="jersey_no">Athlete name:</label><br>
-                            <input type="number" placeholder="Enter jersey number" id="jersey_no" name="jersey_no"
-                                required><br>
-                        </div>
-                        <div>
-                            <label for="device_id">Device ID:</label><br>
-                            <select id="device_id" name="device_id" required>
-                                @foreach($device as $deviceId)
-                                    <option value="{{ $deviceId }}">{{ $deviceId }}</option>
-                                @endforeach
-                            </select><br>
-                        </div>
+                        <button type="submit" class="submitbtn">Update profile</button>
                     </div>
+            </form>
 
-                    <label for="isActive">Active status:</label><br>
-                    <select id="isActive" name="isActive" required>
-                        <option value="yes">Active player</option>
-                        <option value="no">Reserve player</option>
-                    </select><br><br>
+            <!-- The Modal -->
+            <div class="modal" id="deleteModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
 
-                </div>
-
-                <!-- Tombol -->
-
-                <div class="option">
-                    <button type="button" class="deletebtn" data-toggle="modal" data-target="#deleteModal">
-                        Delete profile
-                    </button>
-
-                    <button type="submit" class="submitbtn">Add profile</button>
-                </div>
-
-                <!-- The Modal -->
-                <div class="modal" id="deleteModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <br><br><br>
-                                <form class="modal-isi" action="{{ route('athletesetting.deleted', $athlete) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <br><br><br>
+                            <form class="modal-isi" action="{{ route('athletesetting.deleted', ['athlete_id' => $athlete->athlete_id]) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="athlete_id" value="{{ $athlete->athlete_id }}">
                                 <h3>
                                     Are you sure you want to delete this athlete's profile?
                                 </h3>
@@ -409,19 +432,18 @@
 
                                     <button type="submit" class="deleteconbtn">Yes, delete profile</button>
                                 </div>
-                                </form>
-
-                            </div>
-
-
+                            </form>
 
                         </div>
+
                     </div>
                 </div>
+            </div>
 
 
-            </form>
-        </div>
+
+    </div>
+    @endif
 
     </div>
 
