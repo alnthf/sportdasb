@@ -13,9 +13,10 @@ class Athlete extends Model
      * @var string
      */
     protected $table = 'athlete';
-    protected $fillable = ['athlete_name', 'age', 'gender'
-    , 'height', 'weight', 'jersey_no', 'sport_name', 'position'
-    , 'athlete_pic', 'is_active','team_id'];
+    protected $fillable = [
+        'athlete_name', 'age', 'gender', 'height', 'weight', 'sport_name',
+        'position', 'jersey_no', 'is_active', 'atlete_pic', 'team_id'
+    ];
 
      /**
      * The primary key associated with the table.
@@ -36,7 +37,7 @@ class Athlete extends Model
      */
     public function device()
     {
-        return $this->hasOne(Device::class);
+        return $this->hasOne(Device::class,'athlete_id');
     }
 
      /**
@@ -44,7 +45,7 @@ class Athlete extends Model
      */
     public function team()
     {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Team::class,'athlete_id');
     }
 
 }

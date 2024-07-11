@@ -36,6 +36,6 @@ class Team extends Authenticatable
      */
     public function athletes()
     {
-        return $this->hasMany(Athlete::class);
+        return $this->hasMany(Athlete::class,'team_id');
     }
 }

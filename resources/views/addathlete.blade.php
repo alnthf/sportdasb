@@ -67,6 +67,18 @@
             padding-left: 10px;
         }
 
+        .deviceid {
+            font-size: 20px;
+            width: 95%;
+            padding: 5px 5px;
+            margin: 8px 8px;
+            display: inline-block;
+            border: 1px solid #bdbdbd;
+            background-color: #E4E4E4;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
         input,
         select {
             font-size: 20px;
@@ -236,10 +248,10 @@
         <br>
         <!-- Logo -->
         @if ($device)
-            <form action="{{ route('add-profile.success') }}" target="_self" method="post"
+            <form action="{{ route('add-profile.success') }}" method="post"
                 enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="athlete_id" value="{{ $athlete->id ?? '' }}">
+                <input type="hidden" name="athlete_id" value="{{ $athlete->athlete_id ?? '' }}">
                 <div class="uploadlg">
                     <br><br><br><br>
                     <!-- ini nanti edit biar jadi placeholder upload -->
@@ -256,7 +268,7 @@
                         class="rounded-circle" alt="Athlete picture" id="output" />
                     <br>
                     <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn"
-                        name="athlete_pic" id="athlete_pic">
+                        name="atlete_pic" id="atlete_pic">
 
                 </div>
                 <br>
@@ -267,7 +279,7 @@
                     <div class="formisi">
 
                         <label for="athlete_name">Athlete name:</label><br>
-                        <input type="text" placeholder="Enter team name" id="athlete_name" name="athlete_name"
+                        <input type="text" placeholder="Enter athlete name" id="athlete_name" name="athlete_name"
                             required><br>
 
                         <div class="grid-container">
@@ -304,28 +316,24 @@
 
                         <div class="grid-container">
                             <div>
-                                <label for="jersey_no">Athlete name:</label><br>
+                                <label for="jersey_no">Jersey no:</label><br>
                                 <input type="number" placeholder="Enter jersey number" id="jersey_no" name="jersey_no"
                                     required><br>
                             </div>
                             <div>
                                 <label for="device_id">Device ID:</label><br>
-                                <select id="device_id" name="device_id" readonly>
                                     @if ($device)
-                                    <option value="{{ $device->device_id }}">
-                                        {{ $device->device_id}}</option>
+                                    <p class="deviceid">
+                                        {{ $device->device_id}}</p>
                                     @endif
-                                </select><br>
+                               <br>
                             </div>
                         </div>
 
                         <label for="is_active">Active status:</label><br>
                         <select id="is_active" name="is_active" required>
-
-                            @foreach ($isActiveOptions as $isActive)
-                            <option value="{{ $isActive }}">{{ $isActive ? 'Active' : 'Inactive' }}</option>
-                        @endforeach
-
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                         </select><br>
 
                     </div>

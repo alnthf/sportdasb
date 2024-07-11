@@ -302,7 +302,7 @@
     </div>
 
     <div class="container">
-
+        @if ($athlete)
         <div class="icons">
             <div class="share">
                 <a href="#">
@@ -321,39 +321,46 @@
 
         </div>
 
+
         <div class="atas">
 
             <div class="fotoatlet">
-                <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                    class="rounded-circle" alt="Athlete picture">
+                @if ($athlete && $athlete->atlete_pic)
+                                <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
+                                    class="rounded-circle" alt="Athlete picture">
+                            @else
+                                <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                    class="rounded-circle" alt="No picture">
+                            @endif
             </div>
 
             <div class="details">
-                <h1>Uchiuwa #5</h1>
+                <h1> {{ $athlete ? $athlete->athlete_name . ' #' . $athlete->jersey_no : 'No Data #--' }}</h1>
                 <br>
                 <div class="details-row">
                     <div class="personal">
                         <div>
-                            <p class="deetskecil">Height : 203 cm</p>
+                            <p class="deetskecil">Height : {{ $athlete->height }} cm</p>
                         </div>
                         <div>
-                            <p class="deetskecil">Gender : Male</p>
+                            <p class="deetskecil">Gender : {{ $athlete->gender }}</p>
                         </div>
                         <div>
-                            <p class="deetskecil">Weight : 110 kg</p>
+                            <p class="deetskecil">Weight : {{ $athlete->weight }} kg</p>
                         </div>
                         <div>
-                            <p class="deetskecil">Sport : Basketball</p>
+                            <p class="deetskecil">Sport : {{ $athlete->sport_name }}</p>
                         </div>
                         <div>
-                            <p class="deetskecil">Age : 24 years old</p>
+                            <p class="deetskecil">Age : {{ $athlete->age }} years old</p>
                         </div>
                         <div>
-                            <p class="deetskecil">Position : Forward</p>
+                            <p class="deetskecil">Position : {{ $athlete->position }}</p>
                         </div>
                     </div>
                     <div class="deviceid">
-                        <p class="deetskecil">Device ID : 01</p>
+                        <p class="deetskecil">Status : {{ $athlete->is_active ? 'Active' : 'Inactive' }}</p>
+                        <p class="deetskecil">Device ID : {{ $athlete->device->device_id }}</p>
                     </div>
 
                 </div>
@@ -382,7 +389,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="hr">95</p>
+                                <p class="hr">{{ $athlete->device->heart_rate }}</p>
                             </div>
                             <div class="col">
                                 <h4 style="padding-top: 50px;">bpm</h4>
@@ -401,7 +408,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="hr">105</p>
+                                <p class="hr">{{ $athlete->device->max_heart_rate }}</p>
                             </div>
                             <div class="col">
                                 <h4 style="padding-top: 50px;">bpm</h4>
@@ -411,7 +418,7 @@
                 </div>
             </div>
             <div> </div>
-            <h3 class="hrv">HR Variability : 61 ms</h3>
+            <h3 class="hrv">HR Variability : {{ isset($athlete->device->hrv) ? $athlete->device->hrv : '66' }} ms</h3>
         </div>
 
         <br>
@@ -423,7 +430,7 @@
                     <h2>Oxygen saturation</h2>
                     <div class="bottomstat">
                         <div>
-                            <p class="oxy">98</p>
+                            <p class="oxy">{{ $athlete->device->oxygen }}</p>
                         </div>
                         <div>
                             <h2 style="padding-top: 50px; text-align:left;">%</h2>
@@ -435,12 +442,12 @@
                     <h2>Calories burned</h2>
                     <div class="bottomstat">
                         <div>
-                            <p class="cal">650</p>
+                            <p class="cal">{{ isset($athlete->device->calories) ? $athlete->device->calories : '650' }}</p>
                         </div>
                         <div>
                             <h2 style="padding-top: 50px; text-align:left;">kcal</h2>
                         </div>
-                    </div>x
+                    </div>
 
                 </div>
             </div>
@@ -455,7 +462,7 @@
                         </span>
                     </div>
                     <div class="col">
-                        <p class="sp">18</p>
+                        <p class="sp">{{ $athlete->device->speed }}</p>
                     </div>
                     <div class="col">
                         <h4 style="padding-top: 50px;">mph</h4>
@@ -466,7 +473,7 @@
                         <h3>Max speed :</h3>
                     </div>
                     <div class="speedval">
-                        <h3>19 mph</h3>
+                        <h3>{{ $athlete->device->speed }} mph</h3>
                     </div>
                 </div>
                 <div class="speedstatnum">
@@ -474,14 +481,14 @@
                         <h3>Distance :</h3>
                     </div>
                     <div class="speedval">
-                        <h3>20 miles</h3>
+                        <h3>{{ isset($athlete->device->distance) ? $athlete->device->distance : '20' }} miles</h3>
                     </div>
                 </div>
             </div>
 
 
         </div>
-
+        @endif
     </div>
 </body>
 

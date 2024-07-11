@@ -66,13 +66,13 @@
         }
 
         .addbtn {
-            background-color: #FF903F;
+            background-color: #000000;
             border: none;
-            color: white;
+            color: rgb(255, 255, 255);
             border-radius: 20px;
             text-align: center;
-            font-size: 17px;
-            width: 150px;
+            font-size: 16px;
+            width: 120px;
             height: 32px;
             opacity: 1;
             transition: 0.3s;
@@ -135,8 +135,9 @@
         .rounded-circle {
             margin: auto;
             display: block;
-            width: 130px;
-            height: 130px;
+            width: 100px;
+            height: 100px;
+            padding: 5px 5px;
         }
 
         .topnav {
@@ -209,9 +210,9 @@
 <body>
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
-        <a href="{{ route('home') }}" class="active">Main Menu</a>
+        <a href="{{ route('home') }}">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
-        <a href="{{ route('all-athlete') }}">All Athletes</a>
+        <a href="{{ route('all-athlete') }}" class="active">All Athletes</a>
         <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
         <a href="{{ route('teamsetting') }}" class="split">Settings</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -227,10 +228,7 @@
         </div>
 
         <div class="tengah">
-            <a href="{{ route('add-profile') }}" class="addbtn">
-                <span class="material-symbols-outlined">person_add</span>
-                Add profile</a>
-            <br><br><br><br>
+            <br><br>
             <div class="grid-container">
                 <!-- Isi for each foreach($device(yang sama kayak compact) as $device)-->
                 @foreach ($device as $device)
@@ -238,7 +236,7 @@
                         <div class="stat">
 
                             <h1 class="nama">
-                                {{ $device->athlete ? $device->athlete->name . ' #' . $device->athlete->jersey_no : 'No Data #--' }}
+                                {{ $device->athlete ? $device->athlete->athlete_name . ' #' . $device->athlete->jersey_no : 'No Data #--' }}
                             </h1>
                             <br>
                             <div class="data">
@@ -249,12 +247,12 @@
                                 </div>
                                 <div class="jantung">
                                     @php
-                                    $hr = $device->heart_rate;
-                                    if ($hr >= 83 && $hr <= 165) {
-                                        $hrval = 'optimal';
-                                    } else {
-                                        $hrval = 'bad';
-                                    }
+                                        $hr = $device->heart_rate;
+                                        if ($hr >= 83 && $hr <= 165) {
+                                            $hrval = 'optimal';
+                                        } else {
+                                            $hrval = 'bad';
+                                        }
                                     @endphp
                                     <h2 class="{{ $hrval }}">{{ $device->heart_rate }}</h2>
                                 </div>
@@ -266,12 +264,12 @@
                                 </div>
                                 <div class="oksigen">
                                     @php
-                                    $oxy = $device->oxygen;
-                                    if ($oxy >= 90 && $oxy <= 100) {
-                                        $oxyval = 'optimal';
-                                    } else {
-                                        $oxyval = 'bad';
-                                    }
+                                        $oxy = $device->oxygen;
+                                        if ($oxy >= 90 && $oxy <= 100) {
+                                            $oxyval = 'optimal';
+                                        } else {
+                                            $oxyval = 'bad';
+                                        }
                                     @endphp
                                     <h2 class="{{ $oxyval }}">{{ $device->oxygen }}%</h2>
                                 </div>
@@ -290,21 +288,30 @@
                         </div>
                         <div class="foto">
 
-                            <a href="{{ route('athletedetail', $device->athlete ? $device->athlete->id : '#') }}">
-                                <img src="{{ $device->athlete ? $device->athlete->picture_url : 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png' }}"
+                            @if ($device->athlete && $device->athlete->atlete_pic)
+                                <img src="{{ asset('storage/' . $device->athlete->atlete_pic) }}"
                                     class="rounded-circle" alt="Athlete picture">
-                            </a>
+                            @else
+                                <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                    class="rounded-circle" alt="No picture">
+                            @endif
 
+                            <div style="padding-top: 8px;">
+                                @if ($device->athlete === null)
+                                    <a href="{{ route('add-profile', ['device_id' => $device->device_id]) }}"
+                                        class="addbtn">
+                                        <span class="material-symbols-outlined">person_add</span>
+                                        Add profile</a>
+                                @else
+                                    <a href="{{ route('athletedetail', ['athlete_id' => $device->athlete->athlete_id]) }}"
+                                        class="addbtn">
+                                        Details</a>
+                                @endif
+                            </div>
                         </div>
 
-
                     </div>
-
-                    <!-- Tes col)-->
-
-
-                    <!-- Tes col)-->
-                    @endforeach
+                @endforeach
 
             </div>
 

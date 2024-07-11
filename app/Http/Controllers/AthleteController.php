@@ -120,17 +120,12 @@ class AthleteController extends Controller
         }
 
         //tampilin sesuai data device
-        // mengambil data pegawai berdasarkan id yang dipilih
+        // mengambil data device berdasarkan id yang dipilih
 	    $device = DB::table('device')->where('device_id',$device_id)->first();
 
          // Retrieve distinct gender and is_active values from the athlete table
-        $gender = DB::table('athlete')->distinct()->pluck('gender');
+        $genderOptions = DB::table('athlete')->distinct()->pluck('gender');
         $isActiveOptions = DB::table('athlete')->distinct()->pluck('is_active');
-
-         // Map the gender values to display values
-        $genderOptions = $gender->mapWithKeys(function ($gender) {
-        return [$gender => $gender === 'L' ? 'Male' : 'Female'];
-        });
 
         // Pass the device IDs to the view
         return view('addathlete', compact('device','genderOptions', 'isActiveOptions'));
@@ -141,6 +136,8 @@ class AthleteController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
+
         // Retrieve team_id from session
         $team_id = Session::get('team_id');
 
@@ -157,43 +154,39 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
-        // mengambil data pegawai berdasarkan id yang dipilih
-	    $device = DB::table('device')->where('device_id',$device_id)->first();
-
         //simpen di database
          $request->validate([
-            'athlete_name' => 'required|string|max:255',
-            'age' => 'nullable|integer',
-            'gender' => 'required|string',
-            'height' => 'required|integer',
-            'weight' => 'required|integer',
-            'sport_name' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
-            'jersey_no' => 'required|integer',
-            'is_active' => 'required|boolean',
-            'athlete_pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'athlete_name' => 'required|string|max:255',
+        'age' => 'nullable|integer',
+        'gender' => 'required|string|in:L,P',
+        'height' => 'required|integer',
+        'weight' => 'required|integer',
+        'sport_name' => 'required|string|max:255',
+        'position' => 'required|string|max:255',
+        'jersey_no' => 'required|integer',
+        'is_active' => 'required|string|in:0,1',
+        'atlete_pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $athletePicPath = null;
-
-        if ($request->hasFile('athlete_pic')) {
-            $athletePicPath = $request->file('athlete_pic')->store('athlete_pic', 'public');
+        $atletePicPath = null;
+        if ($request->hasFile('atlete_pic')) {
+        $atletePicPath = $request->file('atlete_pic')->store('atlete_pic', 'public');
         }
 
         // Create the athlete
         Athlete::create([
-        'athlete_name' => $request->athlete_name,
-        'age' => $request->age,
-        'gender' => $request->gender,
-        'height' => $request->height,
-        'weight' => $request->weight,
-        'sport_name' => $request->sport_name,
-        'position' => $request->position,
-        'jersey_no' => $request->jersey_no,
-        'is_active' => $request->is_active,
-        'athlete_pic' => $athletePicPath,
-        'team_id' => $team_id,
-    ]);
+            'athlete_name' => $request->athlete_name,
+            'age' => $request->age,
+            'gender' => $request->gender,
+            'height' => $request->height,
+            'weight' => $request->weight,
+            'sport_name' => $request->sport_name,
+            'position' => $request->position,
+            'jersey_no' => $request->jersey_no,
+            'is_active' => $request->is_active,
+            'atlete_pic' => $atletePicPath,
+            'team_id' => $team_id,
+        ]);
 
         // Redirect to the all athletes view
         return redirect()->route('all-athlete');
@@ -202,7 +195,7 @@ class AthleteController extends Controller
     /**
      * Display an athlete detail
      */
-    public function show(Athlete $athlete)
+    public function show($athlete_id)
     {
         //session tim
         // Retrieve team_id from session
@@ -221,9 +214,11 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
+         // mengambil data athlete berdasarkan id yang dipilih
+         $athlete = Athlete::with('device')->findOrFail($athlete_id);
 
         //balik ke view
-        return view('athletedetails');
+        return view('athletedetails', compact('athlete'));
     }
 
     /**
@@ -247,8 +242,7 @@ class AthleteController extends Controller
             return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
         }
 
-        // Fetch device IDs from the database
-       $device = Device::pluck('device_id');
+
 
         // Pass the device IDs to the view
        return view('athletesetting', compact('device'));

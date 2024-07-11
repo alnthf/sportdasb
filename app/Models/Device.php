@@ -34,6 +34,6 @@ class Device extends Model
      */
     public function athlete()
     {
-        return $this->belongsTo(Athlete::class);
+        return $this->belongsTo(Athlete::class,'athlete_id');
     }
 }
