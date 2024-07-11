@@ -121,17 +121,6 @@
             padding: 10px 10px;
         }
 
-
-        .hr {
-            font-size: 80px;
-            font-weight: 500;
-        }
-
-        .oxy {
-            font-size: 80px;
-            font-weight: 500;
-        }
-
         .cal {
             font-size: 80px;
             font-weight: 500;
@@ -140,11 +129,6 @@
         .sp {
             font-size: 80px;
             font-weight: 500;
-        }
-
-        .hrv {
-            margin: auto;
-            text-align: center;
         }
 
 
@@ -389,7 +373,15 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="hr">{{ $athlete->device->heart_rate }}</p>
+                                @php
+                                        $hr = $athlete->device->heart_rate;
+                                        if ($hr >= 83 && $hr <= 165) {
+                                            $hrval = 'optimal';
+                                        } else {
+                                            $hrval = 'bad';
+                                        }
+                                    @endphp
+                                <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->heart_rate }}</p>
                             </div>
                             <div class="col">
                                 <h4 style="padding-top: 50px;">bpm</h4>
@@ -408,7 +400,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <p class="hr">{{ $athlete->device->max_heart_rate }}</p>
+                                <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->max_heart_rate }}</p>
                             </div>
                             <div class="col">
                                 <h4 style="padding-top: 50px;">bpm</h4>
@@ -418,7 +410,8 @@
                 </div>
             </div>
             <div> </div>
-            <h3 class="hrv">HR Variability : {{ isset($athlete->device->hrv) ? $athlete->device->hrv : '66' }} ms</h3>
+            <h3 style="margin:auto;text-align:center;">
+                HR Variability : {{ isset($athlete->device->hrv) ? $athlete->device->hrv : '66' }} ms</h3>
         </div>
 
         <br>
@@ -430,7 +423,15 @@
                     <h2>Oxygen saturation</h2>
                     <div class="bottomstat">
                         <div>
-                            <p class="oxy">{{ $athlete->device->oxygen }}</p>
+                            @php
+                            $oxy = $athlete->device->oxygen;
+                            if ($oxy >= 90 && $oxy <= 100) {
+                                $oxyval = 'optimal';
+                            } else {
+                                $oxyval = 'bad';
+                            }
+                        @endphp
+                            <p class="{{ $oxyval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->oxygen }}</p>
                         </div>
                         <div>
                             <h2 style="padding-top: 50px; text-align:left;">%</h2>

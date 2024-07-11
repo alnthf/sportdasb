@@ -45,7 +45,7 @@ Route::get('home/all-athlete', 'App\Http\Controllers\AthleteController@index')->
 Route::get('home/all-athlete/add-profile/{device_id}', 'App\Http\Controllers\AthleteController@create')->name('add-profile');
 Route::post('home/all-athlete/add-profile', 'App\Http\Controllers\AthleteController@store')->name('add-profile.success');
 
-Route::get('home/all-athlete/athlete-detail', 'App\Http\Controllers\AthleteController@show')->name('athletedetail');
+Route::get('home/all-athlete/athlete-detail/{athlete_id}', 'App\Http\Controllers\AthleteController@show')->name('athletedetail');
 
 Route::get('home/all-athlete/athlete-detail/athlete-setting', 'App\Http\Controllers\AthleteController@setting')->name('athletesetting');
 Route::post('home/all-athlete/athlete-detail/athlete-setting', 'App\Http\Controllers\AthleteController@update')->name('athletesetting.changed');
