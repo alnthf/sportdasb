@@ -296,7 +296,7 @@
 <body>
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
-        <a href="{{ route('home') }}" class="active">Main Menu</a>
+        <a href="{{ route('home') }}">Main Menu</a>
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
         <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
@@ -310,7 +310,8 @@
         @if ($athlete)
             <br>
             <!-- Logo -->
-            <form action="{{ route('athletesetting.changed', ['athlete_id' => $athlete->athlete_id]) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('athletesetting.changed', ['athlete_id' => $athlete->athlete_id]) }}" method="post"
+                enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="athlete_id" value="{{ $athlete->athlete_id }}">
                 <div class="uploadlg">
@@ -340,7 +341,8 @@
                     <div class="formisi">
 
                         <label for="athlete_name">Athlete name:</label><br>
-                        <input type="text" value="{{ $athlete->athlete_name }}" id="athlete_name" name="athlete_name"><br>
+                        <input type="text" value="{{ $athlete->athlete_name }}" id="athlete_name"
+                            name="athlete_name"><br>
 
                         <div class="grid-container">
                             <div>
@@ -390,8 +392,10 @@
                         <label for="is_active">Active status:</label><br>
                         <select id="is_active" name="is_active">
                             @foreach ($isActiveOptions as $is_active)
-                            <option value="{{ $is_active }}" {{ $athlete->is_active == $is_active ? 'selected' : '' }}>{{ $is_active ? 'Active' : 'Inactive' }}</option>
-                                    @endforeach
+                                <option value="{{ $is_active }}"
+                                    {{ $athlete->is_active == $is_active ? 'selected' : '' }}>
+                                    {{ $is_active ? 'Active' : 'Inactive' }}</option>
+                            @endforeach
                         </select><br><br>
 
                     </div>
@@ -416,7 +420,8 @@
                         <div class="modal-body">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <br><br><br>
-                            <form class="modal-isi" action="{{ route('athletesetting.deleted', ['athlete_id' => $athlete->athlete_id]) }}"
+                            <form class="modal-isi"
+                                action="{{ route('athletesetting.deleted', ['athlete_id' => $athlete->athlete_id]) }}"
                                 method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -440,10 +445,10 @@
                 </div>
             </div>
 
-
+            @endif
 
     </div>
-    @endif
+
 
     </div>
 

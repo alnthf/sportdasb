@@ -23,6 +23,17 @@
             }
         }
     </script>
+     <script>
+        function showPass() {
+            var x = document.getElementById("team_password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
     <!-- Notes -->
     <style>
         body {
@@ -259,7 +270,7 @@
         <!-- Logo -->
         <form action="{{ route('teamsetting.changed') }}" target="_self" method="post" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="team_id" value="{{ $team->id ?? '' }}">
+            <input type="hidden" name="team_id" value="{{ $team->team_id ?? '' }}">
             <div class="uploadlg">
                 <!-- ini nanti edit biar jadi placeholder upload -->
                 <script>

@@ -24,10 +24,6 @@
                 x.className = "topnav";
             }
         }
-
-        function selectSwap() {
-            //masukin buat pilih id atlet aktif
-        }
     </script>
     <!-- Notes -->
     <style>
@@ -142,6 +138,7 @@
             display: grid;
             grid-template-columns: auto auto auto auto auto;
             column-gap: 5px;
+            row-gap: 10px;
         }
 
         .grid-con {
@@ -359,7 +356,7 @@
                     <div class="profile">
 
                         <div class="labelnama">
-                            <h2>{{$athlete->athlete_name }}</h2>
+                            <h2>{{ $athlete->athlete_name }}</h2>
                             <h4>{{ $athlete->position }} #{{ $athlete->jersey_no }}</h4>
 
                         </div>
@@ -367,16 +364,16 @@
                         <div class="foto">
                             <br>
                             @if ($athlete && $athlete->atlete_pic)
-                            <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
-                            <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
-                                class="rounded-circle" alt="Athlete picture">
-                            </a>
-                        @else
-                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
-                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                                class="rounded-circle" alt="No picture">
-                            </a>
-                        @endif
+                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                                    <img src="{{ asset('storage/' . $athlete->atlete_pic) }}" class="rounded-circle"
+                                        alt="Athlete picture">
+                                </a>
+                            @else
+                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                                    <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                        class="rounded-circle" alt="No picture">
+                                </a>
+                            @endif
 
                         </div>
                         <br><br>
@@ -389,7 +386,7 @@
                             </div>
                             <div class="jantung">
                                 @if ($athlete->device)
-                                <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
+                                    <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
                                 @endif
                             </div>
 
@@ -400,7 +397,7 @@
                             </div>
                             <div class="oksigen">
                                 @if ($athlete->device)
-                                <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
+                                    <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
                                 @endif
                             </div>
 
@@ -411,7 +408,7 @@
                             </div>
                             <div class="kecepatan">
                                 @if ($athlete->device)
-                                <h2 class="speed">{{ $athlete->device->speed }} mph</h2>
+                                    <h2 class="speed">{{ $athlete->device->speed }} mph</h2>
                                 @endif
                             </div>
 
@@ -432,28 +429,28 @@
             <br><br>
             <div class="grid-container">
                 <!-- Isi for each foreach $athlete yang isActive nggak-->
-                @foreach ($inactiveAthlete as $athlete)
+                @foreach ($inactiveAthlete as $inathlete)
                     <div class="profilereserve">
 
                         <div class="labelnama">
-                            <h2>{{$athlete->athlete_name }}</h2>
-                            <h4>{{ $athlete->position }} #{{ $athlete->jersey_no }}</h4>
+                            <h2>{{ $inathlete->athlete_name }}</h2>
+                            <h4>{{ $inathlete->position }} #{{ $inathlete->jersey_no }}</h4>
 
                         </div>
 
                         <div class="foto">
                             <br>
-                            @if ($athlete && $athlete->atlete_pic)
-                            <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
-                            <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
-                                class="rounded-circle" alt="Athlete picture">
-                            </a>
-                        @else
-                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
-                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                                class="rounded-circle" alt="No picture">
-                            </a>
-                        @endif
+                            @if ($inathlete && $inathlete->atlete_pic)
+                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                                    <img src="{{ asset('storage/' . $athlete->atlete_pic) }}" class="rounded-circle"
+                                        alt="Athlete picture">
+                                </a>
+                            @else
+                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                                    <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                        class="rounded-circle" alt="No picture">
+                                </a>
+                            @endif
 
                         </div>
                         <br><br>
@@ -465,8 +462,8 @@
                                 </span>
                             </div>
                             <div class="jantung">
-                                @if ($athlete->device)
-                                <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
+                                @if ($inathlete->device)
+                                    <h2 class="hr">{{ $inathlete->device->heart_rate }}</h2>
                                 @endif
                             </div>
 
@@ -476,8 +473,8 @@
                                 </span>
                             </div>
                             <div class="oksigen">
-                                @if ($athlete->device)
-                                <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
+                                @if ($inathlete->device)
+                                    <h2 class="oxygen">{{ $inathlete->device->oxygen }}%</h2>
                                 @endif
                             </div>
 
@@ -487,8 +484,8 @@
                                 </span>
                             </div>
                             <div class="kecepatan">
-                                @if ($athlete->device)
-                                <h2 class="speed">{{ $athlete->device->speed }} mph</h2>
+                                @if ($inathlete->device)
+                                    <h2 class="speed">{{ $inathlete->device->speed }} mph</h2>
                                 @endif
                             </div>
 
@@ -496,57 +493,70 @@
 
                         <div class="tuker">
                             <!-- Tombol -->
-                            <button type="button" class="swapbtn" data-toggle="modal" data-target="#swapModal">
+                            <button type="button" class="swapbtn" data-toggle="modal"
+                                data-target="#swapModal{{ $inathlete->athlete_id }}">
                                 Swap to active
                             </button>
 
                             <!-- The Modal -->
-                            <div class="modal" id="swapModal">
-                                <div class="modal-dialog">
+                            <div class="modal" id="swapModal{{ $inathlete->athlete_id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="swapModalLabel{{ $inathlete->athlete_id }}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
                                     <div class="modal-content">
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <button type="button" class="close"
+                                                data-dismiss="modal">&times;</button>
                                             <br>
+                                            <h5 class="h4" id="swapModalLabel{{ $inathlete->athlete_id }}">
+                                                Select an active athlete to swap
+                                            </h5>
+                                            <h5 class="h4">
+                                                positions with :
+                                            </h5>
+                                            <br>
+
                                             <form class="modal-isi" action="{{ route('swap') }}" method="POST">
                                                 @csrf
-                                                <input type="hidden" name="athlete_id"
-                                                    value="{{ $athlete->id ?? '' }}">
-                                                <h5 class="h4">
-                                                    Select an active athlete to swap
-                                                </h5>
-                                                <h5 class="h4">
-                                                    positions with :
-                                                </h5>
-                                                <br>
-
+                                                <input type="hidden" name="inathlete_id"
+                                                    value="{{ $inathlete->athlete_id }}">
                                                 <div class="grid-con">
                                                     <!-- Isi for each foreach $athlete yang isActive iya-->
+                                                    @foreach ($activeAthlete as $acathlete)
+                                                        <div class="profileswap">
+                                                            <div class="statswap">
 
-                                                    <div class="profileswap">
-                                                        <div class="statswap">
+                                                                <h4 class="namaswap">{{ $acathlete->athlete_name }}</h4>
+                                                                <h5 class="namaswap">{{ $acathlete->position }}
+                                                                    #{{ $acathlete->jersey_no }}</h5>
 
-                                                            <h4 class="namaswap">Achiuwa</h4>
-                                                            <h5 class="namaswap">Forward #5</h5>
+                                                            </div>
+                                                            <div class="fotoswap">
 
+                                                                @if ($acathlete && $acathlete->atlete_pic)
+
+                                                                    <img src="{{ asset('storage/' . $acathlete->atlete_pic) }}"
+                                                                        class="rounded-circleswap"
+                                                                        alt="Athlete picture">
+                                                                @else
+                                                                    <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                                                        class="rounded-circleswap" alt="No picture">
+
+                                                                @endif
+
+                                                            </div>
+                                                            <div class="selectswap">
+                                                                <input type="radio"
+                                                                    id="selectswap{{ $acathlete->athlete_id }}"
+                                                                    name="acathlete_id"
+                                                                    value="{{ $acathlete->athlete_id }}">
+                                                            </div>
                                                         </div>
-                                                        <div class="fotoswap">
-
-                                                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                                                                class="rounded-circleswap" alt="Athlete picture">
-
-                                                        </div>
-                                                        <div class="selectswap">
-                                                            <input type="checkbox" id="selectswap"
-                                                                onclick="selectSwap()">
-                                                        </div>
-
-                                                    </div>
-
-
+                                                    @endforeach
 
                                                 </div>
+
 
                                                 <div class="option">
                                                     <br>
@@ -559,22 +569,21 @@
 
                                         </div>
 
-
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
+
                 @endforeach
-
-
             </div>
 
 
+
         </div>
+
+
+    </div>
 
 
     </div>

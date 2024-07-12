@@ -82,7 +82,7 @@ class AthleteController extends Controller
      /**
      * Show the form for editing the specified resource.
      */
-    public function swap(Athlete $athlete)
+    public function swap(Request $request)
     {
         // Retrieve team_id from session
         $team_id = Session::get('team_id');
@@ -101,6 +101,24 @@ class AthleteController extends Controller
         }
 
         // buat tuker
+        $inathleteId = $request->input('inathlete_id');
+        $acathleteId = $request->input('acathlete_id');
+
+        // Find both athletes
+        $inathlete = Athlete::find($inathleteId);
+        $acathlete = Athlete::find($acathleteId);
+
+        if ($inathlete && $acathlete) {
+
+         // Swap their is_active statuses
+        $inathlete->is_active = 1;
+        $acathlete->is_active = 0;
+
+        // Save the changes
+        $inathlete->save();
+        $acathlete->save();
+
+        }
 
         // Pass the IDs to the view
         return redirect()->route('match');
