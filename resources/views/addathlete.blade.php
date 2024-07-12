@@ -280,12 +280,12 @@
                     <div class="formisi">
                         <div class="grid-container">
                             <div>
-                        <label for="first_name">Athlete name:</label><br>
+                        <label for="first_name">First name:</label><br>
                         <input type="text" placeholder="Enter athlete first name" id="first_name" name="first_name"
                             required><br>
                             </div>
                             <div>
-                                <label for="last_name">Athlete name:</label><br>
+                                <label for="last_name">Last name:</label><br>
                                 <input type="text" placeholder="Enter athlete last name" id="last_name" name="last_name"
                                     required><br>
                                     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
         function myFunction() {
             var x = document.getElementById("myTopnav");
@@ -26,6 +27,30 @@
             }
         }
     </script>
+    <script>
+        function capture() {
+            const captureElement = document.querySelector('#detailsshare')
+            html2canvas(captureElement)
+                .then(canvas => {
+                    canvas.style.display = 'none'
+                    document.body.appendChild(canvas)
+                    return canvas
+                })
+                .then(canvas => {
+                    const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+                    const a = document.createElement('a')
+                    a.setAttribute('download', 'my-profile.png')
+                    a.setAttribute('href', image)
+                    a.click()
+                    canvas.remove()
+                })
+        }
+
+        const btn = document.querySelector('#btn')
+        btn.addEventListener('click', capture)
+    </script>
+
+
     <!-- Notes -->
     <style>
         .material-symbols-outlined {
@@ -273,7 +298,7 @@
 
 </head>
 
-<body>
+<body id="detailsshare">
     <!-- Navbar, ganti ke rute -->
     <div class="topnav" id="myTopnav">
         <a href="{{ route('home') }}" class="active">Main Menu</a>
@@ -288,74 +313,76 @@
 
     <div class="container">
         @if ($athlete)
-        <div class="icons">
-            <div class="share">
-                <a href="#">
-                    <span class="material-symbols-outlined" style="color: #ffffff">
-                        share
-                    </span>
-                </a>
-            </div>
-            <div class="setting">
-                <a href="{{ route('athletesetting', ['athlete_id' => $athlete->athlete_id]) }}">
-                    <span class="material-symbols-outlined" style="color: #ffffff">
-                        settings
-                    </span>
-                </a>
-            </div>
+            <div class="icons">
+                <div class="share">
+                    <a id="btn" download="my-profile.png" href="#"
+                        onclick="capture(); return false;">
+                        <span class="material-symbols-outlined" style="color: #ffffff">
+                            share
+                        </span>
+                    </a>
+                </div>
+                <div class="setting">
+                    <a href="{{ route('athletesetting', ['athlete_id' => $athlete->athlete_id]) }}">
+                        <span class="material-symbols-outlined" style="color: #ffffff">
+                            settings
+                        </span>
+                    </a>
+                </div>
 
-        </div>
-
-
-        <div class="atas">
-
-            <div class="fotoatlet">
-                @if ($athlete && $athlete->atlete_pic)
-                                <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
-                                    class="rounded-circle" alt="Athlete picture">
-                            @else
-                                <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                                    class="rounded-circle" alt="No picture">
-                            @endif
             </div>
 
-            <div class="details">
-                <h1> {{ $athlete ? $athlete->first_name . ' '.  $athlete->last_name . ' #' . $athlete->jersey_no : 'No Data #--' }}</h1>
-                <br>
-                <div class="details-row">
-                    <div class="personal">
-                        <div>
-                            <p class="deetskecil">Height : {{ $athlete->height }} cm</p>
+
+            <div class="atas">
+
+                <div class="fotoatlet">
+                    @if ($athlete && $athlete->atlete_pic)
+                        <img src="{{ asset('storage/' . $athlete->atlete_pic) }}" class="rounded-circle"
+                            alt="Athlete picture">
+                    @else
+                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                            class="rounded-circle" alt="No picture">
+                    @endif
+                </div>
+
+                <div class="details">
+                    <h1> {{ $athlete ? $athlete->first_name . ' ' . $athlete->last_name . ' #' . $athlete->jersey_no : 'No Data #--' }}
+                    </h1>
+                    <br>
+                    <div class="details-row">
+                        <div class="personal">
+                            <div>
+                                <p class="deetskecil">Height : {{ $athlete->height }} cm</p>
+                            </div>
+                            <div>
+                                <p class="deetskecil">Gender : {{ $athlete->gender }}</p>
+                            </div>
+                            <div>
+                                <p class="deetskecil">Weight : {{ $athlete->weight }} kg</p>
+                            </div>
+                            <div>
+                                <p class="deetskecil">Sport : {{ $athlete->sport_name }}</p>
+                            </div>
+                            <div>
+                                <p class="deetskecil">Age : {{ $athlete->age }} years old</p>
+                            </div>
+                            <div>
+                                <p class="deetskecil">Position : {{ $athlete->position }}</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="deetskecil">Gender : {{ $athlete->gender }}</p>
+                        <div class="deviceid">
+                            <p class="deetskecil">Status : {{ $athlete->is_active ? 'Active' : 'Inactive' }}</p>
+                            <p class="deetskecil">Device ID : {{ $athlete->device->device_id }}</p>
                         </div>
-                        <div>
-                            <p class="deetskecil">Weight : {{ $athlete->weight }} kg</p>
-                        </div>
-                        <div>
-                            <p class="deetskecil">Sport : {{ $athlete->sport_name }}</p>
-                        </div>
-                        <div>
-                            <p class="deetskecil">Age : {{ $athlete->age }} years old</p>
-                        </div>
-                        <div>
-                            <p class="deetskecil">Position : {{ $athlete->position }}</p>
-                        </div>
-                    </div>
-                    <div class="deviceid">
-                        <p class="deetskecil">Status : {{ $athlete->is_active ? 'Active' : 'Inactive' }}</p>
-                        <p class="deetskecil">Device ID : {{ $athlete->device->device_id }}</p>
+
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-        <div class="tengah">
-            <div class="graph">
+            <div class="tengah">
+                <div class="graph">
 
                     <canvas id="hrplot" style="width:80%;height:300px;"></canvas>
                     <script>
@@ -363,43 +390,50 @@
                         const xValues = heartRates.map((_, index) => index + 1);
 
                         new Chart("hrplot", {
-                          type: "line",
-                          data: {
-                            labels: xValues,
-                            datasets: [{
-                              fill: false,
-                              lineTension: 0,
-                              backgroundColor: "#000000",
-                              borderColor: "#FF903F",
-                              data: heartRates
-                            }]
-                          },
-                          options: {
-                            legend: {display: false},
-                            scales: {
-                              yAxes: [{ticks: {min: 70, max:150}}],
+                            type: "line",
+                            data: {
+                                labels: xValues,
+                                datasets: [{
+                                    fill: false,
+                                    lineTension: 0,
+                                    backgroundColor: "#000000",
+                                    borderColor: "#FF903F",
+                                    data: heartRates
+                                }]
+                            },
+                            options: {
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 70,
+                                            max: 150
+                                        }
+                                    }],
+                                }
                             }
-                          }
                         });
-                        </script>
+                    </script>
 
 
-            </div>
+                </div>
 
-            <div class="heartstat">
+                <div class="heartstat">
 
-                <div class="heartstatlabel">
-                    <h2>Current HR</h2>
-                    <br>
-                    <div class="heartstatdeet">
-                        <div class="hricon">
-                            <span class="material-symbols-outlined" style="color: #EA3323;font-size:40px;">
-                                ecg_heart
-                            </span>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                @php
+                    <div class="heartstatlabel">
+                        <h2>Current HR</h2>
+                        <br>
+                        <div class="heartstatdeet">
+                            <div class="hricon">
+                                <span class="material-symbols-outlined" style="color: #EA3323;font-size:40px;">
+                                    ecg_heart
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    @php
                                         $hr = $athlete->device->heart_rate;
                                         if ($hr >= 83 && $hr <= 165) {
                                             $hrval = 'optimal';
@@ -407,114 +441,118 @@
                                             $hrval = 'bad';
                                         }
                                     @endphp
-                                <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->heart_rate }}</p>
+                                    <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">
+                                        {{ $athlete->device->heart_rate }}</p>
+                                </div>
+                                <div class="col">
+                                    <h4 style="padding-top: 50px;">bpm</h4>
+                                </div>
                             </div>
-                            <div class="col">
-                                <h4 style="padding-top: 50px;">bpm</h4>
+                        </div>
+                    </div>
+                    <div class="heartstatlabel">
+                        <h2>Max HR</h2>
+                        <br>
+                        <div class="heartstatdeet">
+                            <div class="hricon">
+                                <span class="material-symbols-outlined" style="color: #EA3323; font-size:40px;">
+                                    ecg_heart
+                                </span>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">
+                                        {{ $athlete->device->max_heart_rate }}</p>
+                                </div>
+                                <div class="col">
+                                    <h4 style="padding-top: 50px;">bpm</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="heartstatlabel">
-                    <h2>Max HR</h2>
+                <div> </div>
+                <h3 style="margin:auto;text-align:center;">
+                    HR Variability : {{ isset($athlete->device->hrv) ? $athlete->device->hrv : '66' }} ms</h3>
+            </div>
+
+            <br>
+
+            <div class="bawah">
+
+                <div class="addstat">
+                    <div>
+                        <h2>Oxygen saturation</h2>
+                        <div class="bottomstat">
+                            <div>
+                                @php
+                                    $oxy = $athlete->device->oxygen;
+                                    if ($oxy >= 90 && $oxy <= 100) {
+                                        $oxyval = 'optimal';
+                                    } else {
+                                        $oxyval = 'bad';
+                                    }
+                                @endphp
+                                <p class="{{ $oxyval }}" style="font-size: 80px;font-weight:500;">
+                                    {{ $athlete->device->oxygen }}</p>
+                            </div>
+                            <div>
+                                <h2 style="padding-top: 50px; text-align:left;">%</h2>
+                            </div>
+                        </div>
+                    </div>
                     <br>
-                    <div class="heartstatdeet">
-                        <div class="hricon">
-                            <span class="material-symbols-outlined" style="color: #EA3323; font-size:40px;">
-                                ecg_heart
+                    <div>
+                        <h2>Calories burned</h2>
+                        <div class="bottomstat">
+                            <div>
+                                <p class="cal">
+                                    {{ isset($athlete->device->calories) ? $athlete->device->calories : '650' }}</p>
+                            </div>
+                            <div>
+                                <h2 style="padding-top: 50px; text-align:left;">kcal</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="speedstat">
+                    <h2>Speed</h2>
+                    <div class="row">
+                        <div class="col">
+                            <span class="material-symbols-outlined"
+                                style="color: #75FB4C; padding-top: 35px; font-size:70px;">
+                                sprint
                             </span>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="{{ $hrval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->max_heart_rate }}</p>
-                            </div>
-                            <div class="col">
-                                <h4 style="padding-top: 50px;">bpm</h4>
-                            </div>
+                        <div class="col">
+                            <p class="sp">{{ $athlete->device->speed }}</p>
+                        </div>
+                        <div class="col">
+                            <h4 style="padding-top: 50px;">mph</h4>
+                        </div>
+                    </div>
+                    <div class="speedstatnum">
+                        <div class="speedlabel">
+                            <h3>Max speed :</h3>
+                        </div>
+                        <div class="speedval">
+                            <h3>{{ $athlete->device->speed }} mph</h3>
+                        </div>
+                    </div>
+                    <div class="speedstatnum">
+                        <div class="speedlabel">
+                            <h3>Distance :</h3>
+                        </div>
+                        <div class="speedval">
+                            <h3>{{ isset($athlete->device->distance) ? $athlete->device->distance : '20' }} miles</h3>
                         </div>
                     </div>
                 </div>
+
+
             </div>
-            <div> </div>
-            <h3 style="margin:auto;text-align:center;">
-                HR Variability : {{ isset($athlete->device->hrv) ? $athlete->device->hrv : '66' }} ms</h3>
-        </div>
-
-        <br>
-
-        <div class="bawah">
-
-            <div class="addstat">
-                <div>
-                    <h2>Oxygen saturation</h2>
-                    <div class="bottomstat">
-                        <div>
-                            @php
-                            $oxy = $athlete->device->oxygen;
-                            if ($oxy >= 90 && $oxy <= 100) {
-                                $oxyval = 'optimal';
-                            } else {
-                                $oxyval = 'bad';
-                            }
-                        @endphp
-                            <p class="{{ $oxyval }}" style="font-size: 80px;font-weight:500;">{{ $athlete->device->oxygen }}</p>
-                        </div>
-                        <div>
-                            <h2 style="padding-top: 50px; text-align:left;">%</h2>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div>
-                    <h2>Calories burned</h2>
-                    <div class="bottomstat">
-                        <div>
-                            <p class="cal">{{ isset($athlete->device->calories) ? $athlete->device->calories : '650' }}</p>
-                        </div>
-                        <div>
-                            <h2 style="padding-top: 50px; text-align:left;">kcal</h2>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="speedstat">
-                <h2>Speed</h2>
-                <div class="row">
-                    <div class="col">
-                        <span class="material-symbols-outlined"
-                            style="color: #75FB4C; padding-top: 35px; font-size:70px;">
-                            sprint
-                        </span>
-                    </div>
-                    <div class="col">
-                        <p class="sp">{{ $athlete->device->speed }}</p>
-                    </div>
-                    <div class="col">
-                        <h4 style="padding-top: 50px;">mph</h4>
-                    </div>
-                </div>
-                <div class="speedstatnum">
-                    <div class="speedlabel">
-                        <h3>Max speed :</h3>
-                    </div>
-                    <div class="speedval">
-                        <h3>{{ $athlete->device->speed }} mph</h3>
-                    </div>
-                </div>
-                <div class="speedstatnum">
-                    <div class="speedlabel">
-                        <h3>Distance :</h3>
-                    </div>
-                    <div class="speedval">
-                        <h3>{{ isset($athlete->device->distance) ? $athlete->device->distance : '20' }} miles</h3>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
         @endif
     </div>
 </body>
