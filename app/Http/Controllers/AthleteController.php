@@ -184,7 +184,8 @@ class AthleteController extends Controller
 
         //simpen di database
          $request->validate([
-        'athlete_name' => 'required|string|max:255',
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
         'age' => 'nullable|integer',
         'gender' => 'required|string|in:L,P',
         'height' => 'required|integer',
@@ -194,6 +195,7 @@ class AthleteController extends Controller
         'jersey_no' => 'required|integer',
         'is_active' => 'required|string|in:0,1',
         'atlete_pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'device_id' => 'required|integer',
         ]);
 
         $atletePicPath = null;
@@ -202,8 +204,9 @@ class AthleteController extends Controller
         }
 
         // Create the athlete
-        Athlete::create([
-            'athlete_name' => $request->athlete_name,
+        $athlete = Athlete::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'age' => $request->age,
             'gender' => $request->gender,
             'height' => $request->height,
@@ -215,6 +218,11 @@ class AthleteController extends Controller
             'atlete_pic' => $atletePicPath,
             'team_id' => $team_id,
         ]);
+
+         // Update the device record with the athlete_id
+        DB::table('device')
+        ->where('device_id', $request->device_id)
+        ->update(['athlete_id' => $athlete->athlete_id]);
 
         // Redirect to the all athletes view
         return redirect()->route('all-athlete');
@@ -317,7 +325,8 @@ class AthleteController extends Controller
 
      // Validate the request data
      $validatedData = $request->validate([
-        'athlete_name' => 'required|string|max:255',
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
         'age' => 'nullable|integer',
         'gender' => 'required|string|in:L,P',
         'height' => 'required|integer',
@@ -331,7 +340,8 @@ class AthleteController extends Controller
 
 
            // Update athlete details
-           $athlete->athlete_name = $validatedData['athlete_name'] ?? $athlete->athlete_name;
+           $athlete->first_name = $validatedData['first_name'] ?? $athlete->first_name;
+           $athlete->last_name = $validatedData['last_name'] ?? $athlete->last_name;
            $athlete->age = $validatedData['age'] ??  $athlete->age;
            $athlete->gender = $validatedData['gender'] ??  $athlete->gender;
            $athlete->height = $validatedData['height'] ??  $athlete->height;
@@ -379,7 +389,12 @@ class AthleteController extends Controller
         // mengambil data athlete berdasarkan id yang dipilih
         $athlete = Athlete::with('device')->findOrFail($athlete_id);
 
-        DB::table('athlete')->where('athlete_id',$athlete_id)->delete();
+         // Set the athlete_id in the device table to null before deleting the athlete
+         DB::table('device')->where('athlete_id', $athlete_id)->update(['athlete_id' => null]);
+
+        // Now you can delete the athlete
+        Athlete::destroy($athlete_id);
+
 
         //balik ke view utama
         return redirect()->route('all-athlete');

@@ -61,7 +61,7 @@
             background-color: #FF903F;
             color: white;
             border-radius: 10px;
-            height: auto;
+            height: 550px;
             width: 200px;
             padding: 10px 10px;
         }
@@ -71,7 +71,7 @@
             background-color: #FF903F;
             color: white;
             border-radius: 10px;
-            height: auto;
+            height: 580px;
             width: 200px;
             padding: 10px 10px;
         }
@@ -122,11 +122,13 @@
             display: grid;
             grid-template-columns: auto auto;
             row-gap: 20px;
+            height: 240px;
         }
 
         .tuker {
             padding: 10px 10px;
             margin: auto;
+            text-align: center;
         }
 
         .container {
@@ -356,7 +358,7 @@
                     <div class="profile">
 
                         <div class="labelnama">
-                            <h2>{{ $athlete->athlete_name }}</h2>
+                            <h2>{{ $athlete->last_name }}</h2>
                             <h4>{{ $athlete->position }} #{{ $athlete->jersey_no }}</h4>
 
                         </div>
@@ -433,7 +435,7 @@
                     <div class="profilereserve">
 
                         <div class="labelnama">
-                            <h2>{{ $inathlete->athlete_name }}</h2>
+                            <h2>{{ $inathlete->last_name }}</h2>
                             <h4>{{ $inathlete->position }} #{{ $inathlete->jersey_no }}</h4>
 
                         </div>
@@ -441,12 +443,12 @@
                         <div class="foto">
                             <br>
                             @if ($inathlete && $inathlete->atlete_pic)
-                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
-                                    <img src="{{ asset('storage/' . $athlete->atlete_pic) }}" class="rounded-circle"
+                                <a href="{{ route('athletedetail', ['athlete_id' => $inathlete->athlete_id]) }}">
+                                    <img src="{{ asset('storage/' . $inathlete->atlete_pic) }}" class="rounded-circle"
                                         alt="Athlete picture">
                                 </a>
                             @else
-                                <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                                <a href="{{ route('athletedetail', ['athlete_id' => $inathlete->athlete_id]) }}">
                                     <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
                                         class="rounded-circle" alt="No picture">
                                 </a>
@@ -527,7 +529,7 @@
                                                         <div class="profileswap">
                                                             <div class="statswap">
 
-                                                                <h4 class="namaswap">{{ $acathlete->athlete_name }}</h4>
+                                                                <h4 class="namaswap">{{ $acathlete->last_name }}</h4>
                                                                 <h5 class="namaswap">{{ $acathlete->position }}
                                                                     #{{ $acathlete->jersey_no }}</h5>
 

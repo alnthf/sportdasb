@@ -14,7 +14,7 @@ class Athlete extends Model
      */
     protected $table = 'athlete';
     protected $fillable = [
-        'athlete_name', 'age', 'gender', 'height', 'weight', 'sport_name',
+        'first_name', 'last_name', 'age', 'gender', 'height', 'weight', 'sport_name',
         'position', 'jersey_no', 'is_active', 'atlete_pic', 'team_id'
     ];
 

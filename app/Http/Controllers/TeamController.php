@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\Team;
+use App\Models\Athlete;
+use App\Models\Device;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +35,8 @@ class TeamController extends Controller
     $credentials = $request->only('team_name', 'team_password');
     $team = Team::where('team_name', $credentials['team_name'])->first();
 
-    if ($credentials['team_password'] == $team->team_password) {
+     // Check if team exists and if the password matches
+     if ($team && $credentials['team_password'] == $team->team_password) {
         // Store the team info in the session
         Session::put('team_id', $team->team_id);
         Session::put('team_name', $team->team_name);
@@ -112,8 +115,14 @@ class TeamController extends Controller
              return redirect()->route('welcome')->withErrors(['team' => 'Team not found']);
          }
 
+          // Retrieve active athletes for the team
+        $activeAthlete = Athlete::where('team_id', $team_id)
+        ->where('is_active', 1)
+        ->with('device')
+        ->get();
+
         // Return the view with the team details
-         return view('main', compact('team'));
+         return view('main', compact('team','activeAthlete'));
     }
 
     /**

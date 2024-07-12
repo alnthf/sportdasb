@@ -245,10 +245,21 @@
                 <p style="text-align: left">Here are your current top players :</p>
                 <div class="fototop">
                     <!-- for each foto atlet isActive -->
+                    @foreach ($activeAthlete as $athlete)
                     <div>
-                        <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
-                            class="rounded-circle" alt="Team Logo">
+                        @if ($athlete && $athlete->atlete_pic)
+                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="{{ asset('storage/' . $athlete->atlete_pic) }}" class="rounded-circle"
+                                alt="Athlete picture">
+                        </a>
+                    @else
+                        <a href="{{ route('athletedetail', ['athlete_id' => $athlete->athlete_id]) }}">
+                            <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                class="rounded-circle" alt="No picture">
+                        </a>
+                    @endif
                     </div>
+                    @endforeach
                 </div>
 
             </div>

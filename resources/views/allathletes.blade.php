@@ -137,7 +137,6 @@
             display: block;
             width: 100px;
             height: 100px;
-            padding: 5px 5px;
         }
 
         .topnav {
@@ -236,7 +235,7 @@
                         <div class="stat">
 
                             <h1 class="nama">
-                                {{ $device->athlete ? $device->athlete->athlete_name . ' #' . $device->athlete->jersey_no : 'No Data #--' }}
+                                {{ $device->athlete ? $device->athlete->last_name . ' #' . $device->athlete->jersey_no : 'No Data #--' }}
                             </h1>
                             <br>
                             <div class="data">

@@ -320,7 +320,7 @@
             </div>
 
             <div class="details">
-                <h1> {{ $athlete ? $athlete->athlete_name . ' #' . $athlete->jersey_no : 'No Data #--' }}</h1>
+                <h1> {{ $athlete ? $athlete->first_name . ' '.  $athlete->last_name . ' #' . $athlete->jersey_no : 'No Data #--' }}</h1>
                 <br>
                 <div class="details-row">
                     <div class="personal">

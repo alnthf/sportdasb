@@ -326,8 +326,14 @@
                             }
                         };
                     </script>
-                    <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
-                        class="rounded-circle" alt="Athlete picture" id="output" />
+                    @if ($athlete && $athlete->atlete_pic)
+                    <img src="{{ asset('storage/' . $athlete->atlete_pic) }}"
+                        class="rounded-circle" alt="Athlete picture" id="output">
+                @else
+                <img src="https://t3.ftcdn.net/jpg/05/08/88/82/360_F_508888212_50sPZWAnDEe0IdZGwd5fb1CUDEFPNJgy.jpg"
+                class="rounded-circle" alt="Athlete picture" id="output" />
+                @endif
+
                     <br>
                     <input type="file" accept="image/*" onchange="loadFile(event)" class="uploadbtn"
                         name="atlete_pic" id="atlete_pic">
@@ -339,10 +345,18 @@
                     <h1>Team account</h1>
 
                     <div class="formisi">
-
-                        <label for="athlete_name">Athlete name:</label><br>
-                        <input type="text" value="{{ $athlete->athlete_name }}" id="athlete_name"
-                            name="athlete_name"><br>
+                        <div class="grid-container">
+                            <div>
+                        <label for="first_name">First name:</label><br>
+                        <input type="text" value="{{ $athlete->first_name }}" id="first_name"
+                            name="first_name"><br>
+                            </div>
+                            <div>
+                                <label for="last_name">Last name:</label><br>
+                                <input type="text" value="{{ $athlete->last_name }}" id="last_name"
+                                    name="last_name"><br>
+                                    </div>
+                        </div>
 
                         <div class="grid-container">
                             <div>

@@ -252,6 +252,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="athlete_id" value="{{ $athlete->athlete_id ?? '' }}">
+                <input type="hidden" name="device_id" value="{{ $device->device_id }}">
                 <div class="uploadlg">
                     <br><br><br><br>
                     <!-- ini nanti edit biar jadi placeholder upload -->
@@ -277,10 +278,18 @@
 
                     <h1>Team account</h1>
                     <div class="formisi">
-
-                        <label for="athlete_name">Athlete name:</label><br>
-                        <input type="text" placeholder="Enter athlete name" id="athlete_name" name="athlete_name"
+                        <div class="grid-container">
+                            <div>
+                        <label for="first_name">Athlete name:</label><br>
+                        <input type="text" placeholder="Enter athlete first name" id="first_name" name="first_name"
                             required><br>
+                            </div>
+                            <div>
+                                <label for="last_name">Athlete name:</label><br>
+                                <input type="text" placeholder="Enter athlete last name" id="last_name" name="last_name"
+                                    required><br>
+                                    </div>
+                        </div>
 
                         <div class="grid-container">
                             <div>
