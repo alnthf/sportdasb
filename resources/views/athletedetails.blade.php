@@ -411,7 +411,7 @@
                                     yAxes: [{
                                         ticks: {
                                             min: 0.5,
-                                            max: 0.85
+                                            max: 1
                                         },
                                         scaleLabel: {
                         display: true,
