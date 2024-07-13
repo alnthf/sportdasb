@@ -395,7 +395,7 @@
                                 labels: timeStamp,
                                 datasets: [{
                                     fill: false,
-                                    lineTension: 1,
+                                    lineTension: 0,
                                     backgroundColor: "#FF903F",
                                     borderColor: "#FF903F",
                                     data: heartRates
