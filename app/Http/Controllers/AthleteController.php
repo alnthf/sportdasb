@@ -6,6 +6,7 @@ use DB;
 use App\Models\Athlete;
 use App\Models\Team;
 use App\Models\Device;
+use App\Models\Record;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
@@ -253,12 +254,32 @@ class AthleteController extends Controller
         // mengambil data athlete berdasarkan id yang dipilih
         $athlete = Athlete::with('device')->findOrFail($athlete_id);
 
-        $heartRates = Device::where('athlete_id', $athlete->athlete_id)
-        ->pluck('heart_rate')
+        $record = DB::table('recordhr')
+         ->where('device_id', $athlete->device->device_id)
+         ->select('rrdata', 'time')
+         ->get();
+
+
+        $heartRates = $record
+        ->pluck('rrdata')
         ->toArray();
 
+        $originalTimes = $record
+        ->pluck('time')
+        ->toArray();
+
+// Function to round timestamps and filter them based on your requirements
+function mapToIntervals($originalTimes, $interval = 60) {
+    return array_values(array_unique(array_map(function($time) use ($interval) {
+        return round($time / $interval) * $interval;
+    }, $originalTimes)));
+}
+
+// Get timestamps rounded to nearest 10
+$timeStamp = mapToIntervals($originalTimes, 30);
+
         //balik ke view
-        return view('athletedetails', compact('athlete', 'heartRates'));
+        return view('athletedetails', compact('athlete', 'heartRates','timeStamp'));
     }
 
     /**

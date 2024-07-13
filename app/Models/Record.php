@@ -12,14 +12,7 @@ class Record extends Model
      *
      * @var string
      */
-    protected $table = 'record';
-
-     /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'device_id';
+    protected $table = 'recordhr';
 
   /**
      * Indicates if the model should be timestamped.
@@ -27,4 +20,12 @@ class Record extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the athlete associated with the device.
+     */
+    public function device()
+    {
+        return $this->belongsTo(Device::class,'device_id');
+    }
 }

@@ -387,16 +387,16 @@
                     <canvas id="hrplot" style="width:80%;height:300px;"></canvas>
                     <script>
                         const heartRates = {!! json_encode($heartRates) !!};
-                        const xValues = heartRates.map((_, index) => index + 1);
+                        const timeStamp = {!! json_encode($timeStamp) !!};
 
                         new Chart("hrplot", {
                             type: "line",
                             data: {
-                                labels: xValues,
+                                labels: timeStamp,
                                 datasets: [{
                                     fill: false,
-                                    lineTension: 0,
-                                    backgroundColor: "#000000",
+                                    lineTension: 1,
+                                    backgroundColor: "#FF903F",
                                     borderColor: "#FF903F",
                                     data: heartRates
                                 }]
@@ -408,11 +408,11 @@
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            min: 70,
-                                            max: 150
+                                            min: 0,
+                                            max: 1
                                         }
                                     }],
-                                }
+                                },
                             }
                         });
                     </script>
