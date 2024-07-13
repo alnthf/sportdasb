@@ -106,6 +106,13 @@
             padding: 10px 5px;
         }
 
+        .option {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+        }
+
         .rounded-circle {
             margin: auto;
             display: block;
@@ -557,16 +564,18 @@
                                                         </div>
                                                     @endforeach
 
+                                                    <div class="option">
+
+                                                        <button type="button" class="cancelbtn"
+                                                            data-dismiss="modal">Cancel</button>
+
+                                                        <button type="submit" class="swapconbtn">Swap athletes</button>
+                                                    </div>
+
                                                 </div>
 
 
-                                                <div class="option">
-                                                    <br>
-                                                    <button type="button" class="cancelbtn"
-                                                        data-dismiss="modal">Cancel</button>
 
-                                                    <button type="submit" class="swapconbtn">Swap athletes</button>
-                                                </div>
                                             </form>
 
                                         </div>

@@ -214,8 +214,7 @@
         }
 
         .topnav a.split {
-            background-color: #FF903F;
-            color: rgb(0, 0, 0);
+
             text-align: center;
             float: right;
         }
@@ -259,7 +258,7 @@
         <a href="{{ route('match') }}">Match Mode</a>
         <a href="{{ route('all-athlete') }}">All Athletes</a>
         <a href="{{ route('sign-out') }}" class="split">Sign Out</a>
-        <a href="{{ route('teamsetting') }}" class="split">Settings</a>
+        <a href="{{ route('teamsetting') }}" class="split" style=" background-color: #FF903F;color: rgb(0, 0, 0);">Settings</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
