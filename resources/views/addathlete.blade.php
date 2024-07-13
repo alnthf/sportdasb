@@ -276,7 +276,7 @@
 
                 <div class="isian">
 
-                    <h1>Team account</h1>
+                    <h1>Athlete Profile</h1>
                     <div class="formisi">
                         <div class="grid-container">
                             <div>
