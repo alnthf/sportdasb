@@ -384,7 +384,7 @@
             <div class="tengah">
                 <div class="graph">
 
-                    <canvas id="hrplot" style="width:80%;height:300px;"></canvas>
+                    <canvas id="hrplot" style="width:90%;height:300px;"></canvas>
                     <script>
                         const heartRates = {!! json_encode($heartRates) !!};
                         const timeStamp = {!! json_encode($timeStamp) !!};
@@ -398,7 +398,9 @@
                                     lineTension: 0,
                                     backgroundColor: "#FF903F",
                                     borderColor: "#FF903F",
-                                    data: heartRates
+                                    data: heartRates,
+                                    pointStyle: false,
+                                    pointRadius: 0
                                 }]
                             },
                             options: {
@@ -408,10 +410,25 @@
                                 scales: {
                                     yAxes: [{
                                         ticks: {
-                                            min: 0,
-                                            max: 1
-                                        }
-                                    }],
+                                            min: 0.5,
+                                            max: 0.85
+                                        },
+                                        scaleLabel: {
+                        display: true,
+                        labelString: 'Heart Rate Variability'
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return Math.round(value);
+                        }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Time (minute)'
+                    }
+                }]
                                 },
                             }
                         });

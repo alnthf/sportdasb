@@ -268,15 +268,14 @@ class AthleteController extends Controller
         ->pluck('time')
         ->toArray();
 
-// Function to round timestamps and filter them based on your requirements
-function mapToIntervals($originalTimes, $interval = 60) {
-    return array_values(array_unique(array_map(function($time) use ($interval) {
-        return round($time / $interval) * $interval;
-    }, $originalTimes)));
-}
+         // Function to map original times to nearest desired interval
+    function mapToIntervals($originalTimes, $interval = 60) {
+        return array_map(function($time) use ($interval) {
+            return ($time / $interval);
+        }, $originalTimes);
+    }
 
-// Get timestamps rounded to nearest 10
-$timeStamp = mapToIntervals($originalTimes, 30);
+    $timeStamp = mapToIntervals($originalTimes,30);
 
         //balik ke view
         return view('athletedetails', compact('athlete', 'heartRates','timeStamp'));
