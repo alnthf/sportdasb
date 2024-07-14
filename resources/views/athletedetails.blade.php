@@ -315,8 +315,7 @@
         @if ($athlete)
             <div class="icons">
                 <div class="share">
-                    <a id="btn" download="my-profile.png" href="#"
-                        onclick="capture(); return false;">
+                    <a id="btn" download="my-profile.png" href="#" onclick="capture(); return false;">
                         <span class="material-symbols-outlined" style="color: #ffffff">
                             share
                         </span>
@@ -414,25 +413,28 @@
                                             max: 1
                                         },
                                         scaleLabel: {
-                        display: true,
-                        labelString: 'Heart Rate Variability'
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        callback: function(value, index, values) {
-                            const roundedValue = Math.round(value);
-                            return index % 2 === 0 ? roundedValue : '';
-                        }
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Time (minute)'
-                    },
-                    gridLines: {
-            display:false
-        }
-                }]
+                                            display: true,
+                                            labelString: 'Heart Rate Variability'
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        ticks: {
+                                            maxRotation: 0,
+                                            minRotation: 0,
+                                            callback: function(value, index, values) {
+                                                const roundedValue = Math.round(value);
+                                                return index % 2 === 0 ? roundedValue : '';
+                                            }
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Time (minute)',
+
+                                        },
+                                        gridLines: {
+                                            display: false
+                                        }
+                                    }]
                                 },
                             }
                         });
