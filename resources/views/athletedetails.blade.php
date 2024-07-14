@@ -384,7 +384,7 @@
             <div class="tengah">
                 <div class="graph">
 
-                    <canvas id="hrplot" style="width:90%;height:300px;"></canvas>
+                    <canvas id="hrplot" style="width:95%;height:300px;"></canvas>
                     <script>
                         const heartRates = {!! json_encode($heartRates) !!};
                         const timeStamp = {!! json_encode($timeStamp) !!};
@@ -421,13 +421,17 @@
                 xAxes: [{
                     ticks: {
                         callback: function(value, index, values) {
-                            return Math.round(value);
+                            const roundedValue = Math.round(value);
+                            return index % 2 === 0 ? roundedValue : '';
                         }
                     },
                     scaleLabel: {
                         display: true,
                         labelString: 'Time (minute)'
-                    }
+                    },
+                    gridLines: {
+            display:false
+        }
                 }]
                                 },
                             }

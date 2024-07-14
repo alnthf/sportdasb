@@ -269,13 +269,14 @@ class AthleteController extends Controller
         ->toArray();
 
          // Function to map original times to nearest desired interval
-    function mapToIntervals($originalTimes, $interval = 60) {
+        function mapToIntervals($originalTimes, $interval = 60) {
         return array_map(function($time) use ($interval) {
             return ($time / $interval);
         }, $originalTimes);
     }
 
-    $timeStamp = mapToIntervals($originalTimes,30);
+    $timeStamp = mapToIntervals($originalTimes);
+
 
         //balik ke view
         return view('athletedetails', compact('athlete', 'heartRates','timeStamp'));
