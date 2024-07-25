@@ -76,6 +76,7 @@ class AthleteController extends Controller
         ->with('device')
         ->get();
 
+
         //balik ke view
         return view('match',compact('activeAthlete', 'inactiveAthlete'));
     }

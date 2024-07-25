@@ -147,6 +147,23 @@
             padding: 10px 10px;
         }
 
+        .indikasi {
+            margin: auto;
+            color: #ffffff;
+            font-size: 15px;
+            padding: 15px 5px;
+        }
+
+        .ind {
+            display: grid;
+            grid-template-columns: auto auto;
+            width: 15%;
+            background-color: #000000;
+            border-radius: 10px;
+            color: #ffffff;
+            padding: 10px;
+        }
+
         .cal {
             font-size: 80px;
             font-weight: 500;
@@ -170,6 +187,7 @@
             display: grid;
             grid-template-columns: auto auto;
             padding: 10px 10px;
+            row-gap: 5px;
         }
 
         .heartstatdeet {
@@ -379,7 +397,22 @@
                 </div>
 
             </div>
-
+            <div class="indikasi">
+                <h5>Color indication : </h5>
+                <div class="ind">
+                    <div>
+                        <p style="color: #75FB4C">Green</p>
+                    </div>
+                    <div>
+                        <p> = Optimal</p>
+                    </div>
+                    <div>
+                        <p style="color:#FF2C2C">Red</p>
+                    </div>
+                    <p> = Unwell</p>
+                    <div></div>
+                </div>
+            </div>
             <div class="tengah">
                 <div class="graph">
 
@@ -439,7 +472,6 @@
                             }
                         });
                     </script>
-
 
                 </div>
 

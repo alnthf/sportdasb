@@ -52,6 +52,31 @@
             text-align: left;
         }
 
+        .summary {
+            padding: 15px 10px;
+        }
+
+        .sumbtn {
+            background-color: #FF903F;
+            border: none;
+            color: rgb(255, 255, 255);
+            border-radius: 20px;
+            text-align: center;
+            font-size: 17px;
+            display: inline-block;
+            width: auto;
+            height: 35px;
+            margin: auto;
+            opacity: 1;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .sumbtn:hover {
+            background-color: #a95f2b;
+            color: rgb(255, 255, 255);
+        }
+
         input[type=checkbox] {
             transform: scale(1.5);
         }
@@ -118,6 +143,14 @@
             display: block;
             width: 120px;
             height: 120px;
+        }
+
+        .optimal {
+            color: #88FF64;
+        }
+
+        .bad {
+            color: #FF2C2C;
         }
 
         .stat {
@@ -269,6 +302,23 @@
             color: rgb(255, 255, 255);
         }
 
+        .indikasi {
+            margin: auto;
+            color: #000000;
+            font-size: 15px;
+            padding: 15px 5px;
+        }
+
+        .ind {
+            display: grid;
+            grid-template-columns: auto auto;
+            width: 15%;
+            background-color: #000000;
+            border-radius: 10px;
+            color: #ffffff;
+            padding: 10px;
+        }
+
         .topnav {
             overflow: hidden;
             background-color: #000000;
@@ -357,6 +407,76 @@
             <p>Match Statistics</p>
         </div>
 
+        <div class="summary">
+            <!-- Tombol -->
+            <button type="button" class="sumbtn" data-toggle="modal" data-target="#sumModal">
+                Swap Recommendation
+            </button>
+
+            <!-- The Modal -->
+            <div class="modal" id="sumModal" tabindex="-1" role="dialog" aria-labelledby="sumModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <br>
+                            <h5 class="h4" id="sumModalLabel">
+                                Here are the active athletes
+                            </h5>
+                            <h5 class="h4">
+                                recommended to swap
+                            </h5>
+                            <br>
+                            <div class="grid-con">
+                                @foreach ($activeAthlete as $needswap)
+                                    @if (
+                                        $needswap->device->heart_rate < 83 ||
+                                            $needswap->device->heart_rate > 165 ||
+                                            $needswap->device->oxygen < 90 ||
+                                            $needswap->device->oxygen > 100)
+                                        <div class="profileswap">
+                                            <div class="statswap">
+
+                                                <h4 class="namaswap">{{ $needswap->last_name }}</h4>
+                                                <h5 class="namaswap">{{ $needswap->position }}
+                                                    #{{ $needswap->jersey_no }}</h5>
+
+                                            </div>
+                                            <div class="fotoswap">
+
+                                                @if ($needswap && $needswap->atlete_pic)
+                                                    <img src="{{ asset('storage/' . $needswap->atlete_pic) }}"
+                                                        class="rounded-circleswap" alt="Athlete picture">
+                                                @else
+                                                    <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
+                                                        class="rounded-circleswap" alt="No picture">
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <div class="option">
+
+                                <button type="button" class="cancelbtn" data-dismiss="modal">Back</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="aktif">
 
             <div class="grid-container">
@@ -388,6 +508,16 @@
                         <br><br>
 
                         <div class="stat">
+
+                            @php
+                                $hr = $athlete->device->heart_rate;
+                                if ($hr >= 83 && $hr <= 165) {
+                                    $hrval = 'optimal';
+                                } else {
+                                    $hrval = 'bad';
+                                }
+                            @endphp
+
                             <div class="icon">
                                 <span class="material-symbols-outlined" style="color: #EA3323">
                                     ecg_heart
@@ -395,7 +525,7 @@
                             </div>
                             <div class="jantung">
                                 @if ($athlete->device)
-                                    <h2 class="hr">{{ $athlete->device->heart_rate }}</h2>
+                                    <h2 class="{{ $hrval }}">{{ $athlete->device->heart_rate }}</h2>
                                 @endif
                             </div>
 
@@ -404,9 +534,19 @@
                                     oxygen_saturation
                                 </span>
                             </div>
+
+                            @php
+                                $oxy = $athlete->device->oxygen;
+                                if ($oxy >= 90 && $oxy <= 100) {
+                                    $oxyval = 'optimal';
+                                } else {
+                                    $oxyval = 'bad';
+                                }
+                            @endphp
+
                             <div class="oksigen">
                                 @if ($athlete->device)
-                                    <h2 class="oxygen">{{ $athlete->device->oxygen }}%</h2>
+                                    <h2 class="{{ $oxyval }}">{{ $athlete->device->oxygen }}%</h2>
                                 @endif
                             </div>
 
@@ -451,8 +591,8 @@
                             <br>
                             @if ($inathlete && $inathlete->atlete_pic)
                                 <a href="{{ route('athletedetail', ['athlete_id' => $inathlete->athlete_id]) }}">
-                                    <img src="{{ asset('storage/' . $inathlete->atlete_pic) }}" class="rounded-circle"
-                                        alt="Athlete picture">
+                                    <img src="{{ asset('storage/' . $inathlete->atlete_pic) }}"
+                                        class="rounded-circle" alt="Athlete picture">
                                 </a>
                             @else
                                 <a href="{{ route('athletedetail', ['athlete_id' => $inathlete->athlete_id]) }}">
@@ -470,9 +610,17 @@
                                     ecg_heart
                                 </span>
                             </div>
+                            @php
+                                $hr = $inathlete->device->heart_rate;
+                                if ($hr >= 83 && $hr <= 165) {
+                                    $hrvalz = 'optimal';
+                                } else {
+                                    $hrvalz = 'bad';
+                                }
+                            @endphp
                             <div class="jantung">
                                 @if ($inathlete->device)
-                                    <h2 class="hr">{{ $inathlete->device->heart_rate }}</h2>
+                                    <h2 class="{{ $hrvalz }}">{{ $inathlete->device->heart_rate }}</h2>
                                 @endif
                             </div>
 
@@ -481,9 +629,19 @@
                                     oxygen_saturation
                                 </span>
                             </div>
+
+                            @php
+                            $oxy = $inathlete->device->oxygen;
+                            if ($oxy >= 90 && $oxy <= 100) {
+                                $oxyvalz = 'optimal';
+                            } else {
+                                $oxyvalz = 'bad';
+                            }
+                        @endphp
+
                             <div class="oksigen">
                                 @if ($inathlete->device)
-                                    <h2 class="oxygen">{{ $inathlete->device->oxygen }}%</h2>
+                                    <h2 class="{{ $oxyvalz }}">{{ $inathlete->device->oxygen }}%</h2>
                                 @endif
                             </div>
 
@@ -508,8 +666,9 @@
                             </button>
 
                             <!-- The Modal -->
-                            <div class="modal" id="swapModal{{ $inathlete->athlete_id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="swapModalLabel{{ $inathlete->athlete_id }}" aria-hidden="true">
+                            <div class="modal" id="swapModal{{ $inathlete->athlete_id }}" tabindex="-1"
+                                role="dialog" aria-labelledby="swapModalLabel{{ $inathlete->athlete_id }}"
+                                aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
 
@@ -544,14 +703,12 @@
                                                             <div class="fotoswap">
 
                                                                 @if ($acathlete && $acathlete->atlete_pic)
-
                                                                     <img src="{{ asset('storage/' . $acathlete->atlete_pic) }}"
                                                                         class="rounded-circleswap"
                                                                         alt="Athlete picture">
                                                                 @else
                                                                     <img src="https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png"
                                                                         class="rounded-circleswap" alt="No picture">
-
                                                                 @endif
 
                                                             </div>
@@ -569,7 +726,8 @@
                                                         <button type="button" class="cancelbtn"
                                                             data-dismiss="modal">Cancel</button>
 
-                                                        <button type="submit" class="swapconbtn">Swap athletes</button>
+                                                        <button type="submit" class="swapconbtn">Swap
+                                                            athletes</button>
                                                     </div>
 
                                                 </div>
@@ -585,7 +743,6 @@
                             </div>
                         </div>
                     </div>
-
                 @endforeach
             </div>
 
@@ -593,6 +750,22 @@
 
         </div>
 
+        <div class="indikasi">
+            <h5>Color indication : </h5>
+            <div class="ind">
+                <div>
+                    <p style="color: #75FB4C">Green</p>
+                </div>
+                <div>
+                    <p> = Optimal</p>
+                </div>
+                <div>
+                    <p style="color:#FF2C2C">Red</p>
+                </div>
+                <p> = Unwell</p>
+                <div></div>
+            </div>
+        </div>
 
     </div>
 
